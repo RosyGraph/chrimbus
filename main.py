@@ -16,6 +16,7 @@ TIME_LIMIT = 0.5
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "matrix_demo",
     "mono_rainbow",
     "rainbow",
     "carnival",
