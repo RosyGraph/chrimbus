@@ -336,14 +336,8 @@ def matrix_demo():
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        square_size = 2
-        for y_coord in range(matrix.height - square_size):
-            pixels.fill((0, 0, 0))
-            matrix.set_region(
-                0, y_coord, matrix.width, y_coord + square_size, (255, 255, 0)
-            )
-            pixels.show()
-            time.sleep(2)
+        for i in range(100):
+            matrix.wave_effect(i / 100)
 
 
 def parade():

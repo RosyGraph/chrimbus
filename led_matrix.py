@@ -1,4 +1,5 @@
 import json
+import math
 
 
 class LEDMatrix:
@@ -12,23 +13,19 @@ class LEDMatrix:
         self.height = height
         self.pixels = pixels
 
-    def set_pixel(self, x, y, color):
-        """Set the color of the LED closest to the given 2D position."""
+    def set_pixel(x, y, color):
+        """Set the LED closest to the given physical position [x, y]."""
         closest_idx = None
         closest_distance = float("inf")
-        target = (x, y)
 
-        for idx, coord in self.mapping.items():
-            distance = (
-                (coord[0] - target[0]) ** 2 + (coord[1] - target[1]) ** 2
-            ) ** 0.5
+        for idx, (led_x, led_y) in self.mapping.items():
+            distance = ((led_x - x) ** 2 + (led_y - y) ** 2) ** 0.5
             if distance < closest_distance:
                 closest_distance = distance
                 closest_idx = idx
 
-        # Set the color for the closest LED
         if closest_idx is not None:
-            self.pixels[int(closest_idx)] = color
+            self.pixels[closest_idx] = color
 
     def fill(self, color):
         """Fill all LEDs with a single color."""
@@ -48,4 +45,11 @@ class LEDMatrix:
         for idx, (x, y) in self.mapping.items():
             if x1 <= round(x) <= x2 and y1 <= round(y) <= y2:
                 self.pixels[idx] = color
+        self.pixels.show()
+
+    def wave_effect(self, time_step):
+        for idx, (x, y) in self.mapping.items():
+            intensity = int((math.sin(x / 100.0 + time_step) + 1) * 127.5)
+            color = (intensity, 0, 255 - intensity)
+            self.pixels[idx] = color
         self.pixels.show()
