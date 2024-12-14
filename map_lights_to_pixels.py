@@ -4,7 +4,8 @@ import os
 import cv2
 
 FRAME_DIR = "frames"  # Directory where extracted frames are stored
-NUM_LIGHTS = 150  # Number of LEDs in your setup
+# the first 20 frames are not useful for mapping
+# the first frame itself is missing
 
 
 def find_brightest_pixel(frame_path):
@@ -18,7 +19,7 @@ def find_brightest_pixel(frame_path):
 def map_leds():
     """Map LEDs to their 2D positions based on frame analysis."""
     mapping = {}
-    for i in range(NUM_LIGHTS):
+    for i in range(18, 150):
         frame_path = os.path.join(FRAME_DIR, f"frame{i:03d}.png")
         if not os.path.exists(frame_path):
             print(f"Frame {i} not found!")
