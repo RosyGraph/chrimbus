@@ -337,11 +337,11 @@ def matrix_demo():
             pixels=pixels,
         )
         granularity = 25
-        for j in range(granularity):
-            for i in range(granularity):
-                matrix.set_pixel(i / granularity, j / granularity, (255, 0, 0))
-                matrix.show()
-                time.sleep(0.1)
+        for y in range(granularity):
+            matrix.set_region(
+                0, y / granularity, 1, (y + 1) / granularity, COLORS["red"]
+            )
+            matrix.show()
 
 
 def parade():
