@@ -1,33 +1,30 @@
-import subprocess
 import argparse
+import random
+import subprocess
 import time
+
 import board
 import neopixel
-import random
 
 NUM_LIGHTS = 150
 DATA_PIN = board.D18
 MAX = 255
 TIME_LIMIT = 0.5
-COLORS = {
-        "red": (0, MAX // 4, 0),
-        "blue": (0, 0, MAX // 4),
-        "green": (MAX // 4, 0, 0)
-        }
+COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
-        # "strobe",
-        "mono_rainbow",
-        "rainbow",
-        "carnival",
-        "chrimbus",
-        "candy_cane",
-        "random_p",
-        # "white",
-        "twinkly_snow",
-        "rg_chase",
-        "constipated",
-        # "mexico"
-        ]
+    # "strobe",
+    "mono_rainbow",
+    "rainbow",
+    "carnival",
+    "chrimbus",
+    "candy_cane",
+    "random_p",
+    # "white",
+    "twinkly_snow",
+    "rg_chase",
+    "constipated",
+    # "mexico"
+]
 
 
 def get_cpu_temperature():
@@ -79,7 +76,6 @@ class Color:
         return (self.green, self.red, self.blue)
 
 
-
 def linspace(start, stop, num=NUM_LIGHTS):
     if num < 2:
         return [start] if num == 1 else []
@@ -104,7 +100,10 @@ def strobe():
 def rg_chase():
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        pixels[:] = [COLORS["red"] if i % 20 < 10 else COLORS["green"] for i, _ in enumerate(pixels)]
+        pixels[:] = [
+            COLORS["red"] if i % 20 < 10 else COLORS["green"]
+            for i, _ in enumerate(pixels)
+        ]
         while True:
             pixels[:] = rotate(pixels)
             pixels.show()
@@ -163,11 +162,15 @@ def mono_rainbow():
         while True:
             next_index = (current_index + 1) % len(color)
             while color[next_index] < MAX:
-                color = tuple(c+1 if i == next_index else c for i, c in enumerate(color))
+                color = tuple(
+                    c + 1 if i == next_index else c for i, c in enumerate(color)
+                )
                 pixels.fill(color)
                 time.sleep(0.01)
             while color[current_index] > 0:
-                color = tuple(c-1 if i == current_index else c for i, c in enumerate(color))
+                color = tuple(
+                    c - 1 if i == current_index else c for i, c in enumerate(color)
+                )
                 pixels.fill(color)
                 time.sleep(0.01)
             current_index = next_index
@@ -176,12 +179,11 @@ def mono_rainbow():
                 break
 
 
-
 def carnival():
     start = time.time()
     start_idx = 0
     NUM_COLORS = 13
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write = False) as pixels:
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         while True:
             for i in range(start_idx % NUM_COLORS, len(pixels), NUM_COLORS):
                 pixels[i] = (0, 0, MAX)
@@ -223,7 +225,9 @@ def candy_cane():
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         while True:
             pixels[red_first::2] = [(0, MAX, 0)] * (len(pixels) // 2)
-            pixels[not red_first::2] = [(MAX - 100, MAX, MAX - 100)] * (len(pixels) // 2)
+            pixels[not red_first :: 2] = [(MAX - 100, MAX, MAX - 100)] * (
+                len(pixels) // 2
+            )
             pixels.show()
             red_first = not red_first
             time.sleep(1)
@@ -238,7 +242,7 @@ def chrimbus():
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         while True:
             pixels[red_first::2] = [COLORS["red"]] * (len(pixels) // 2)
-            pixels[not red_first::2] = [COLORS["green"]] * (len(pixels) // 2)
+            pixels[not red_first :: 2] = [COLORS["green"]] * (len(pixels) // 2)
             pixels.show()
             red_first = not red_first
             time.sleep(1)
@@ -260,13 +264,14 @@ def white(intensity=1):
             if elapsed > TIME_LIMIT * 60:
                 break
 
+
 def twinkly_snow():
     start = time.time()
     white = (MAX, MAX, MAX)
-    light_blue = (MAX-150, MAX-150, MAX)
+    light_blue = (MAX - 150, MAX - 150, MAX)
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         while True:
-            pixels[:] = [light_blue if random.random() > .2 else white for _ in pixels]
+            pixels[:] = [light_blue if random.random() > 0.2 else white for _ in pixels]
             pixels.show()
             time.sleep(0.2)
             elapsed = time.time() - start
@@ -280,13 +285,15 @@ def mexico():
     blue = (0, 0, MAX)
     green = (MAX, 0, 0)
     red = (0, MAX, 0)
+
     def map_p():
         rv = random.random()
-        if rv < .1:
+        if rv < 0.1:
             return green
-        if rv < .2:
+        if rv < 0.2:
             return red
         return white
+
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         while True:
             pixels[:] = [map_p() for _ in pixels]
@@ -296,18 +303,19 @@ def mexico():
             if elapsed > TIME_LIMIT * 60:
                 break
 
+
 def constipated():
     start = time.time()
     movement_choices = [-3, -5, 3, 5, 8, 10]
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        light_blue = (MAX-150, MAX-150, MAX)
+        light_blue = (MAX - 150, MAX - 150, MAX)
         light_pink = (MAX - 100, MAX, MAX - 100)
         num_snakes = 2
         snake_len = 7
         pixels.fill(light_blue)
         pixels[:snake_len] = [light_pink] * snake_len
         halfway = len(pixels) // num_snakes
-        pixels[halfway: halfway+snake_len] = [light_pink] * snake_len
+        pixels[halfway : halfway + snake_len] = [light_pink] * snake_len
         pixels.show()
         while True:
             next_move = random.choice(movement_choices)
@@ -318,7 +326,6 @@ def constipated():
             elapsed = time.time() - start
             if elapsed > TIME_LIMIT * 60:
                 break
-
 
 
 def parade():
@@ -337,7 +344,7 @@ def diagnostic():
     time.sleep(3)
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         for i, _ in enumerate(pixels):
-            pixels.fill((0,0,0))
+            pixels.fill((0, 0, 0))
             pixels[i] = (MAX, MAX, MAX)
             pixels.show()
             time.sleep(0.5)
@@ -345,15 +352,15 @@ def diagnostic():
 
 def clear():
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        pixels.fill((0,0,0))
+        pixels.fill((0, 0, 0))
         pixels.show()
 
 
 if __name__ == "main":
-    parser = argparse.ArgumentParser(
-            prog="Christmas Lights"
-            )
-    parser.add_argument("-p", "--pattern", choices=PATTERNS + ["parade"], default="white")
+    parser = argparse.ArgumentParser(prog="Christmas Lights")
+    parser.add_argument(
+        "-p", "--pattern", choices=PATTERNS + ["parade"], default="white"
+    )
     parser.add_argument("-c", "--clear", action="store_true")
     parser.add_argument("-d", "--diagnostic", action="store_true")
     args = parser.parse_args()
