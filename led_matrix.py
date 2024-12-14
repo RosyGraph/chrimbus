@@ -3,9 +3,9 @@ import math
 
 
 class LEDMatrix:
-    def __init__(self, pixels, mapping=None, width=30, height=15):
+    def __init__(self, pixels, mapping=None, width=1.0, height=1.0):
         if mapping is None:
-            with open("led_mapping.json") as f:
+            with open("corrected_led_mapping.json") as f:
                 self.mapping = {int(k): v for k, v in json.load(f).items()}
         else:
             self.mapping = mapping

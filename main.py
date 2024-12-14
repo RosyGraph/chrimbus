@@ -337,7 +337,8 @@ def matrix_demo():
             pixels=pixels,
         )
         for i in range(100):
-            matrix.wave_effect(i / 100)
+            matrix.set_pixel(i / 100, 0, (255, 0, 0))
+            matrix.show()
             time.sleep(0.1)
 
 
