@@ -11,7 +11,7 @@ from led_matrix import LEDMatrix
 NUM_LIGHTS = 150
 DATA_PIN = board.D18
 MAX = 255
-TIME_LIMIT = 0.5
+TIME_LIMIT = 4
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
