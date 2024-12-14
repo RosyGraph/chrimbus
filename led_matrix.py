@@ -6,12 +6,22 @@ class LEDMatrix:
         self.pixels = pixels
 
     def set_pixel(self, x, y, color):
-        """Set the color of a specific LED based on its 2D position."""
+        """Set the color of the LED closest to the given 2D position."""
+        closest_idx = None
+        closest_distance = float("inf")
+        target = (x, y)
+
         for idx, coord in self.mapping.items():
-            print(f"idx: {idx}, coord: {coord}")
-            if round(coord[0]) == x and round(coord[1]) == y:
-                self.pixels[idx] = color
-                break
+            distance = (
+                (coord[0] - target[0]) ** 2 + (coord[1] - target[1]) ** 2
+            ) ** 0.5
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_idx = idx
+
+        # Set the color for the closest LED
+        if closest_idx is not None:
+            self.pixels[int(closest_idx)] = color
 
     def fill(self, color):
         """Fill all LEDs with a single color."""
