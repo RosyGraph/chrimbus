@@ -384,7 +384,7 @@ def parade(time_limit=TIME_LIMIT):
             if temperature > 70:
                 print("internal temperature too high. shutting down...")
                 exit()
-            eval(f"{pattern}({time_limit=})")
+            eval(f"{pattern}(time_limit={time_limit})")
 
 
 def diagnostic():
