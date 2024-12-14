@@ -96,7 +96,7 @@ def strobe(time_limit=TIME_LIMIT):
                     pixels[i] = color
                     time.sleep(0.03)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -112,7 +112,7 @@ def rg_chase(time_limit=TIME_LIMIT):
             pixels.show()
             time.sleep(0.03)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -136,7 +136,7 @@ def random_p(time_limit=TIME_LIMIT):
             pixels.show()
             time.sleep(0.1)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -151,7 +151,7 @@ def rainbow(time_limit=TIME_LIMIT):
             pixels[:] = [next(c) for c in colors]
             pixels.show()
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -176,7 +176,7 @@ def mono_rainbow(time_limit=TIME_LIMIT):
                 time.sleep(0.01)
             current_index = next_index
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -216,7 +216,7 @@ def carnival(time_limit=TIME_LIMIT):
             time.sleep(0.5)
             start_idx += 1
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -233,7 +233,7 @@ def candy_cane(time_limit=TIME_LIMIT):
             red_first = not red_first
             time.sleep(1)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -248,7 +248,7 @@ def chrimbus(time_limit=TIME_LIMIT):
             red_first = not red_first
             time.sleep(1)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -262,7 +262,7 @@ def white(intensity=1, time_limit=TIME_LIMIT):
             pixels[:] = [(value, value, value)] * len(pixels)
             pixels.show()
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -276,7 +276,7 @@ def twinkly_snow(time_limit=TIME_LIMIT):
             pixels.show()
             time.sleep(0.2)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -300,7 +300,7 @@ def mexico(time_limit=TIME_LIMIT):
             pixels.show()
             time.sleep(0.3)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
@@ -324,11 +324,12 @@ def constipated(time_limit=TIME_LIMIT):
                 pixels.show()
                 time.sleep(0.03)
             elapsed = time.time() - start
-            if elapsed > TIME_LIMIT * 60:
+            if elapsed > time_limit * 60:
                 break
 
 
 def rg_matrix(time_limit=TIME_LIMIT):
+    start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(
             pixels=pixels,
@@ -338,28 +339,40 @@ def rg_matrix(time_limit=TIME_LIMIT):
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["red"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
             for y in range(4):
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["green"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["red"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["green"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["red"])
                 matrix.set_region(0, x / 4, 1, (x + 1) / 4, COLORS["red"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
             for y in range(4):
                 matrix.set_region(y / 4, 0, (y + 1) / 4, 1, COLORS["green"])
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["green"])
                 matrix.show()
                 time.sleep(1)
+            if time.time() - start > time_limit * 60:
+                break
 
 
 def parade(time_limit=TIME_LIMIT):
