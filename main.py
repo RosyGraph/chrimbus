@@ -342,7 +342,7 @@ def matrix_demo():
             height=45,
             pixels=pixels,
         )
-        matrix.fill((0, 0, MAX))
+        matrix.set_pixel(0, 0, (0, 0, MAX))
         time.sleep(5)
 
 
