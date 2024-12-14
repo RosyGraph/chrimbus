@@ -343,6 +343,7 @@ def matrix_demo():
             pixels=pixels,
         )
         matrix.set_pixel(0, 0, (0, 0, MAX))
+        pixels.show()
         time.sleep(5)
 
 

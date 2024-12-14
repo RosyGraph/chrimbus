@@ -8,6 +8,7 @@ class LEDMatrix:
     def set_pixel(self, x, y, color):
         """Set the color of a specific LED based on its 2D position."""
         for idx, coord in self.mapping.items():
+            print(f"idx: {idx}, coord: {coord}")
             if round(coord[0]) == x and round(coord[1]) == y:
                 self.pixels[idx] = color
                 break
