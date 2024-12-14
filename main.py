@@ -344,9 +344,9 @@ def matrix_demo():
         )
         for y_coord in range(matrix.height):
             for x_coord in range(matrix.width):
+                pixels.clear()
                 matrix.set_pixel(x_coord, y_coord, (0, 0, MAX))
                 pixels.show()
-                time.sleep(0.1)
 
 
 def parade():
