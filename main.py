@@ -345,6 +345,14 @@ def matrix_demo():
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["green"])
                 matrix.show()
                 time.sleep(1.5)
+            for x in range(4):
+                matrix.set_region(x / 4, 0, x / 4, 1, COLORS["red"])
+                matrix.show()
+                time.sleep(1.5)
+            for x in range(4):
+                matrix.set_region(x / 4, 0, x / 4, 1, COLORS["green"])
+                matrix.show()
+                time.sleep(1.5)
 
 
 def parade():
