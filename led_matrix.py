@@ -13,7 +13,7 @@ class LEDMatrix:
                 self.pixels[idx] = color
                 break
 
-    def fill(self, color: tuple[int, int, int] | int):
+    def fill(self, color):
         """Fill all LEDs with a single color."""
         self.pixels.fill(color)
         self.pixels.show()
