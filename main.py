@@ -336,9 +336,10 @@ def matrix_demo():
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        for j in range(10):
-            for i in range(10):
-                matrix.set_pixel(i / 10, j / 10, (255, 0, 0))
+        granularity = 25
+        for j in range(granularity):
+            for i in range(granularity):
+                matrix.set_pixel(i / granularity, j / granularity, (255, 0, 0))
                 matrix.show()
                 time.sleep(0.1)
 
