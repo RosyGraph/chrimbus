@@ -15,7 +15,7 @@ TIME_LIMIT = 0.5
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
-    "matrix_demo",
+    "rg_matrix",
     "mono_rainbow",
     "rainbow",
     "carnival",
@@ -331,7 +331,7 @@ def constipated():
                 break
 
 
-def matrix_demo():
+def rg_matrix():
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(
             pixels=pixels,
@@ -340,29 +340,29 @@ def matrix_demo():
             for y in range(4):
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["red"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
             for y in range(4):
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["green"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["red"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["green"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
             for x in range(4):
                 matrix.set_region(x / 4, 0, (x + 1) / 4, 1, COLORS["red"])
                 matrix.set_region(0, x / 4, 1, (x + 1) / 4, COLORS["red"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
             for y in range(4):
                 matrix.set_region(y / 4, 0, (y + 1) / 4, 1, COLORS["green"])
                 matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["green"])
                 matrix.show()
-                time.sleep(1.5)
+                time.sleep(1)
 
 
 def parade():
