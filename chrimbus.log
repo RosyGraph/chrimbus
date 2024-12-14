@@ -1,0 +1,36 @@
+Sat 14 Dec 2024 01:06:19 PM MST: Cleaning up light process from PID file...
+Sat 14 Dec 2024 01:06:20 PM MST: Killing existing light processes...
+Sat 14 Dec 2024 01:06:20 PM MST: Turning off LEDs...
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/runpy.py", line 183, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/usr/lib/python3.7/runpy.py", line 109, in _get_module_details
+    __import__(pkg_name)
+  File "/home/pi/chrimbus/main.py", line 421, in <module>
+    eval(f"{args.pattern}(time_limit={args.time})")
+  File "<string>", line 1, in <module>
+NameError: name 'inf' is not defined
+Sat 14 Dec 2024 01:06:27 PM MST: Killing existing light processes...
+Sat 14 Dec 2024 01:06:27 PM MST: Turning off LEDs...
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/runpy.py", line 183, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/usr/lib/python3.7/runpy.py", line 109, in _get_module_details
+    __import__(pkg_name)
+  File "/home/pi/chrimbus/main.py", line 421, in <module>
+    eval(f"{args.pattern}(time_limit={args.time})")
+  File "<string>", line 1, in <module>
+NameError: name 'inf' is not defined
+Sat 14 Dec 2024 01:06:27 PM MST: Starting lights with pattern parade and time 2...
+Sat 14 Dec 2024 01:06:46 PM MST: Cleaning up light process from PID file...
+Sat 14 Dec 2024 01:06:46 PM MST: Killing existing light processes...
+Sat 14 Dec 2024 01:06:46 PM MST: Turning off LEDs...
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/runpy.py", line 183, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/usr/lib/python3.7/runpy.py", line 109, in _get_module_details
+    __import__(pkg_name)
+  File "/home/pi/chrimbus/main.py", line 421, in <module>
+    eval(f"{args.pattern}(time_limit={args.time})")
+  File "<string>", line 1, in <module>
+NameError: name 'inf' is not defined
