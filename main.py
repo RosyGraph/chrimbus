@@ -336,14 +336,15 @@ def matrix_demo():
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        matrix.set_region(10, 10, 20, 20, (255, 255, 0))
-        pixels.show()
-        time.sleep(10)
-        for y_coord in range(matrix.height):
-            for x_coord in range(matrix.width):
-                pixels.fill((0, 0, 0))
-                matrix.set_pixel(x_coord, y_coord, (0, 0, MAX))
-                pixels.show()
+        y_offset = 0
+        square_size = 20
+        for y_coord in range(matrix.height - square_size):
+            pixels.fill((0, 0, 0))
+            matrix.set_region(
+                0, y_coord, matrix.width, y_coord + square_size, (255, 255, 0)
+            )
+            pixels.show()
+            time.sleep(2)
 
 
 def parade():
