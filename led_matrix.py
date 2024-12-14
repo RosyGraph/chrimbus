@@ -13,7 +13,7 @@ class LEDMatrix:
         self.height = height
         self.pixels = pixels
 
-    def set_pixel(x, y, color):
+    def set_pixel(self, x, y, color):
         """Set the LED closest to the given physical position [x, y]."""
         closest_idx = None
         closest_distance = float("inf")
