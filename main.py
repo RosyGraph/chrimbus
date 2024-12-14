@@ -11,7 +11,7 @@ from led_matrix import LEDMatrix
 NUM_LIGHTS = 150
 DATA_PIN = board.D18
 MAX = 255
-TIME_LIMIT = 4
+TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
@@ -86,7 +86,7 @@ def linspace(start, stop, num=NUM_LIGHTS):
     return [int(start + step) * i for i in range(num)]
 
 
-def strobe():
+def strobe(time_limit=TIME_LIMIT):
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS) as pixels:
         pixels.fill(COLORS["green"])
@@ -100,7 +100,7 @@ def strobe():
                 break
 
 
-def rg_chase():
+def rg_chase(time_limit=TIME_LIMIT):
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         pixels[:] = [
@@ -128,9 +128,8 @@ def randomly_shift_color(color):
     return tuple(new_color)
 
 
-def random_p():
+def random_p(time_limit=TIME_LIMIT):
     start = time.time()
-    color = (0, 0, MAX)
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS) as pixels:
         while True:
             pixels[:] = list(map(randomly_shift_color, pixels))
@@ -141,14 +140,13 @@ def random_p():
                 break
 
 
-def rainbow():
+def rainbow(time_limit=TIME_LIMIT):
     start = time.time()
     colors = [Color() for _ in range(NUM_LIGHTS)]
     for i, color in enumerate(colors):
         for j in range(i * 2):
             next(color)
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        base_value = MAX - len(pixels)
         while True:
             pixels[:] = [next(c) for c in colors]
             pixels.show()
@@ -157,7 +155,7 @@ def rainbow():
                 break
 
 
-def mono_rainbow():
+def mono_rainbow(time_limit=TIME_LIMIT):
     start = time.time()
     current_index = 2
     color = (0, 0, MAX)
@@ -182,7 +180,7 @@ def mono_rainbow():
                 break
 
 
-def carnival():
+def carnival(time_limit=TIME_LIMIT):
     start = time.time()
     start_idx = 0
     NUM_COLORS = 13
@@ -222,7 +220,7 @@ def carnival():
                 break
 
 
-def candy_cane():
+def candy_cane(time_limit=TIME_LIMIT):
     start = time.time()
     red_first = True
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
@@ -239,7 +237,7 @@ def candy_cane():
                 break
 
 
-def chrimbus():
+def chrimbus(time_limit=TIME_LIMIT):
     start = time.time()
     red_first = True
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
@@ -254,7 +252,7 @@ def chrimbus():
                 break
 
 
-def white(intensity=1):
+def white(intensity=1, time_limit=TIME_LIMIT):
     if intensity < 0 or intensity > 1:
         raise ValueError("Provide intensity in [0, 1]")
     start = time.time()
@@ -268,7 +266,7 @@ def white(intensity=1):
                 break
 
 
-def twinkly_snow():
+def twinkly_snow(time_limit=TIME_LIMIT):
     start = time.time()
     white = (MAX, MAX, MAX)
     light_blue = (MAX - 150, MAX - 150, MAX)
@@ -282,10 +280,9 @@ def twinkly_snow():
                 break
 
 
-def mexico():
+def mexico(time_limit=TIME_LIMIT):
     start = time.time()
     white = (MAX, MAX, MAX)
-    blue = (0, 0, MAX)
     green = (MAX, 0, 0)
     red = (0, MAX, 0)
 
@@ -307,7 +304,7 @@ def mexico():
                 break
 
 
-def constipated():
+def constipated(time_limit=TIME_LIMIT):
     start = time.time()
     movement_choices = [-3, -5, 3, 5, 8, 10]
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
@@ -331,7 +328,7 @@ def constipated():
                 break
 
 
-def rg_matrix():
+def rg_matrix(time_limit=TIME_LIMIT):
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(
             pixels=pixels,
@@ -365,7 +362,7 @@ def rg_matrix():
                 time.sleep(1)
 
 
-def parade():
+def parade(time_limit=TIME_LIMIT):
     while True:
         for pattern in PATTERNS:
             print(f"displaying {pattern}...")
@@ -400,10 +397,11 @@ if __name__ == "main":
     )
     parser.add_argument("-c", "--clear", action="store_true")
     parser.add_argument("-d", "--diagnostic", action="store_true")
+    parser.add_argument("-t", "--time", type=float, default=TIME_LIMIT)
     args = parser.parse_args()
     if args.clear:
         clear()
     if args.diagnostic:
         diagnostic()
     else:
-        eval(f"{args.pattern}()")
+        eval(f"{args.pattern}(time_limit={args.time})")
