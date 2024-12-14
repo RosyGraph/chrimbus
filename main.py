@@ -344,7 +344,7 @@ def matrix_demo():
         )
         for y_coord in range(matrix.height):
             for x_coord in range(matrix.width):
-                pixels.clear()
+                pixels.fill((0, 0, 0))
                 matrix.set_pixel(x_coord, y_coord, (0, 0, MAX))
                 pixels.show()
 
