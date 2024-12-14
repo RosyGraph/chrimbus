@@ -5,7 +5,7 @@ class LEDMatrix:
     def __init__(self, pixels, mapping=None, width=30, height=15):
         if mapping is None:
             with open("scaled_led_mapping_30x15.json") as f:
-                self.mapping = json.load(f)
+                self.mapping = {int(k): v for k, v in json.load(f).items()}
         else:
             self.mapping = mapping
         self.width = width
