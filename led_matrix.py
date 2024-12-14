@@ -14,11 +14,14 @@ class LEDMatrix:
         self.pixels = pixels
 
     def set_pixel(self, x, y, color):
-        """Set the LED closest to the given physical position [x, y]."""
+        """
+        Set the LED closest to the given normalized position [0, 1].
+        """
         closest_idx = None
         closest_distance = float("inf")
 
         for idx, (led_x, led_y) in self.mapping.items():
+            # Calculate Euclidean distance to find the closest LED
             distance = ((led_x - x) ** 2 + (led_y - y) ** 2) ** 0.5
             if distance < closest_distance:
                 closest_distance = distance
@@ -41,9 +44,11 @@ class LEDMatrix:
         self.pixels.show()
 
     def set_region(self, x1, y1, x2, y2, color):
-        """Set a rectangular region of LEDs to a specific color."""
-        for idx, (x, y) in self.mapping.items():
-            if x1 <= round(x) <= x2 and y1 <= round(y) <= y2:
+        """
+        Set all LEDs within a rectangular region defined in [0, 1].
+        """
+        for idx, (led_x, led_y) in self.mapping.items():
+            if x1 <= led_x <= x2 and y1 <= led_y <= y2:
                 self.pixels[idx] = color
         self.pixels.show()
 
