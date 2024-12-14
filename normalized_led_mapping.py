@@ -1,40 +1,49 @@
 import json
-import numpy as np
+
 import matplotlib.pyplot as plt
 
-# Load LED mapping
+
+def normalize_mapping(mapping):
+    """
+    Normalize the LED coordinates to a 0-1 range for both X and Y axes.
+    """
+    min_x = min(coord[0] for coord in mapping.values())
+    max_x = max(coord[0] for coord in mapping.values())
+    min_y = min(coord[1] for coord in mapping.values())
+    max_y = max(coord[1] for coord in mapping.values())
+
+    normalized_mapping = {}
+    for idx, (x, y) in mapping.items():
+        normalized_x = (x - min_x) / (max_x - min_x)
+        normalized_y = (y - min_y) / (max_y - min_y)
+        normalized_mapping[idx] = (normalized_x, normalized_y)
+
+    return normalized_mapping
+
+
+# Load your original mapping
 with open("led_mapping.json") as f:
-    led_mapping = json.load(f)
+    raw_mapping = json.load(f)
 
-# Extract current positions
-points = np.array(list(led_mapping.values()))
-x_coords, y_coords = points[:, 0], points[:, 1]
+# Normalize the mapping
+normalized_mapping = normalize_mapping(raw_mapping)
 
-# Find bounding box
-min_x, max_x = min(x_coords), max(x_coords)
-min_y, max_y = min(y_coords), max(y_coords)
+# Save the normalized mapping
+with open("normalized_led_mapping.json", "w") as f:
+    json.dump(normalized_mapping, f)
 
-# Define target space
-TARGET_WIDTH, TARGET_HEIGHT = 60, 45  # Rectangular space dimensions
 
-# Transform each point to the rectangular space
-transformed_mapping = {}
-for i, (x, y) in enumerate(points):
-    new_x = (x - min_x) / (max_x - min_x) * TARGET_WIDTH
-    new_y = (y - min_y) / (max_y - min_y) * TARGET_HEIGHT
-    transformed_mapping[i] = (new_x, new_y)
+# Extract normalized points
+normalized_points = list(normalized_mapping.values())
+x_coords, y_coords = zip(*normalized_points)
 
-# Save the transformed mapping
-with open("transformed_led_mapping.json", "w") as f:
-    json.dump(transformed_mapping, f)
-
-# Plot the transformed points
-transformed_points = np.array(list(transformed_mapping.values()))
+# Plot the normalized mapping
 plt.figure(figsize=(8, 6))
-plt.scatter(transformed_points[:, 0], transformed_points[:, 1], c='blue', label='Transformed LEDs', s=10)
-plt.gca().invert_yaxis()  # Match original coordinate system
-plt.title("LED Mapping to Rectangular Space")
+plt.scatter(x_coords, y_coords, c="blue", label="Normalized LEDs", s=10)
+plt.gca().invert_yaxis()  # Invert Y-axis to match display coordinates
+plt.title("Normalized LED Mapping (0-1 Range)")
 plt.xlabel("Normalized X")
 plt.ylabel("Normalized Y")
 plt.legend()
+plt.grid()
 plt.show()

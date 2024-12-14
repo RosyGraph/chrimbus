@@ -338,6 +338,7 @@ def matrix_demo():
         )
         for i in range(100):
             matrix.wave_effect(i / 100)
+            time.sleep(0.1)
 
 
 def parade():
