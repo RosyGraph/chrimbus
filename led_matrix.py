@@ -1,10 +1,10 @@
 class LEDMatrix:
-    def __init__(self, mapping, width, height, data_pin, num_lights):
+    def __init__(self, mapping, width, height, pixels):
         self.mapping = mapping  # A dictionary where keys are 1D indices and values are 2D (x, y) coordinates
         self.width = width
         self.height = height
         self.num_lights = num_lights
-        self.pixels = neopixel.NeoPixel(data_pin, num_lights, auto_write=False)
+        self.pixels = pixels
 
     def set_pixel(self, x, y, color):
         """Set the color of a specific LED based on its 2D position."""
@@ -13,7 +13,7 @@ class LEDMatrix:
                 self.pixels[idx] = color
                 break
 
-    def fill(self, color):
+    def fill(self, color: tuple[int, int, int] | int):
         """Fill all LEDs with a single color."""
         self.pixels.fill(color)
         self.pixels.show()

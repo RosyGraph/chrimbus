@@ -1,10 +1,13 @@
 import argparse
+import json
 import random
 import subprocess
 import time
 
 import board
 import neopixel
+
+from led_matrix import LEDMatrix
 
 NUM_LIGHTS = 150
 DATA_PIN = board.D18
@@ -326,6 +329,20 @@ def constipated():
             elapsed = time.time() - start
             if elapsed > TIME_LIMIT * 60:
                 break
+
+
+def matrix_demo():
+    with open("transformed_led_mapping.json") as f:
+        led_mapping = json.load(f)
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(
+            mapping=led_mapping,
+            width=60,
+            height=45,
+            pixels=pixels,
+        )
+        matrix.fill((0, 0, MAX))
+        time.sleep(5)
 
 
 def parade():
