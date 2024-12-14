@@ -342,6 +342,7 @@ def matrix_demo():
                 0, y / granularity, 1, (y + 1) / granularity, COLORS["red"]
             )
             matrix.show()
+            time.sleep(0.1)
 
 
 def parade():
