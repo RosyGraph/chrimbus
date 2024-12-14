@@ -336,13 +336,11 @@ def matrix_demo():
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        granularity = 25
-        for y in range(granularity):
-            matrix.set_region(
-                0, y / granularity, 1, (y + 1) / granularity, COLORS["red"]
-            )
-            matrix.show()
-            time.sleep(0.1)
+        while True:
+            for y in range(4):
+                matrix.set_region(0, y / 4, 1, (y + 1) / 4, COLORS["red"])
+                matrix.show()
+                time.sleep(3)
 
 
 def parade():
