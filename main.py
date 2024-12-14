@@ -1,5 +1,4 @@
 import argparse
-import json
 import random
 import subprocess
 import time
@@ -333,13 +332,8 @@ def constipated():
 
 
 def matrix_demo():
-    with open("transformed_led_mapping.json") as f:
-        led_mapping = json.load(f)
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(
-            mapping=led_mapping,
-            width=60,
-            height=45,
             pixels=pixels,
         )
         for y_coord in range(matrix.height):

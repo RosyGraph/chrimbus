@@ -1,6 +1,13 @@
+import json
+
+
 class LEDMatrix:
-    def __init__(self, mapping, width, height, pixels):
-        self.mapping = mapping  # A dictionary where keys are 1D indices and values are 2D (x, y) coordinates
+    def __init__(self, pixels, mapping=None, width=30, height=15):
+        if mapping is None:
+            with open("scaled_led_mapping_30x15.json") as f:
+                self.mapping = json.load(f)
+        else:
+            self.mapping = mapping
         self.width = width
         self.height = height
         self.pixels = pixels
