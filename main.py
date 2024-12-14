@@ -336,6 +336,9 @@ def matrix_demo():
         matrix = LEDMatrix(
             pixels=pixels,
         )
+        matrix.set_region(10, 10, 20, 20, (255, 255, 0))
+        pixels.show()
+        time.sleep(10)
         for y_coord in range(matrix.height):
             for x_coord in range(matrix.width):
                 pixels.fill((0, 0, 0))
