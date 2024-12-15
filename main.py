@@ -100,24 +100,32 @@ def strobe(time_limit=TIME_LIMIT):
             if elapsed > time_limit * 60:
                 break
 
-
 def pinwheel(time_limit=TIME_LIMIT):
     start = time.time()
     red = (0, MAX, 0)
     white = (MAX, MAX, MAX)
-    f = lambda x, y, slope: y >= slope * x
+    slopes = [s / 10 for s in range(-20, 21, 5)]  # Slopes from -2.0 to 2.0
+
+    regions = {
+        "upper": lambda x, y, slope: y >= slope * (x - 0.5) + 0.5,
+        "lower": lambda x, y, slope: y <= slope * (x - 0.5) + 0.5,
+    }
+
+    stop = False
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        matrix = LEDMatrix(
-            pixels=pixels,
-        )
-        while True:
-            for slope in range(1, 11):
-                for i, (x, y) in matrix.mapping.items():
-                    pixels[i] = red if f(x, y, slope) else white
-                pixels.show()
-                time.sleep(0.03)
-                elapsed = time.time() - start
-                if elapsed > time_limit * 60:
+        matrix = LEDMatrix(pixels=pixels)
+        while not stop:
+            for region_name, region_fn in regions.items():
+                for slope in slopes:
+                    for i, (x, y) in matrix.mapping.items():
+                        pixels[i] = red if region_fn(x, y, slope) else white
+                    pixels.show()
+                    time.sleep(0.2)
+                    elapsed = time.time() - start
+                    if elapsed > time_limit * 60:
+                        stop = True
+                        break
+                if stop:
                     break
 
 
