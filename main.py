@@ -112,6 +112,8 @@ def pinwheel(time_limit=TIME_LIMIT):
         while True:
             left_of_middle = [k for k, v in matrix.mapping.items() if v[0] < 0.5]
             right_of_middle = [k for k, v in matrix.mapping.items() if v[0] > 0.5]
+            print(left_of_middle)
+            print(right_of_middle)
             for i in left_of_middle:
                 matrix.set_pixel(i / len(left_of_middle), 0, red)
             for i in right_of_middle:
