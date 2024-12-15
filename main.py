@@ -100,6 +100,7 @@ def strobe(time_limit=TIME_LIMIT):
             if elapsed > time_limit * 60:
                 break
 
+
 def pinwheel(time_limit=TIME_LIMIT):
     start = time.time()
     red = (0, MAX, 0)
