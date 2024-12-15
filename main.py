@@ -15,6 +15,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "pinwheel",
     "rg_matrix",
     "mono_rainbow",
     "rainbow",
@@ -95,6 +96,28 @@ def strobe(time_limit=TIME_LIMIT):
                 for i, _ in enumerate(pixels):
                     pixels[i] = color
                     time.sleep(0.03)
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
+
+
+def pinwheel(time_limit=TIME_LIMIT):
+    start = time.time()
+    red = (0, MAX, 0)
+    white = (MAX, MAX, MAX)
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(
+            pixels=pixels,
+        )
+        while True:
+            left_of_middle = [k for k, v in matrix.mapping.items() if v[0] < 0.5]
+            right_of_middle = [k for k, v in matrix.mapping.items() if v[0] > 0.5]
+            for i in left_of_middle:
+                matrix.set_pixel(i / len(left_of_middle), 0, red)
+            for i in right_of_middle:
+                matrix.set_pixel(i / len(right_of_middle), 0, white)
+            matrix.show()
+            time.sleep(0.03)
             elapsed = time.time() - start
             if elapsed > time_limit * 60:
                 break
