@@ -105,14 +105,13 @@ def pinwheel(time_limit=TIME_LIMIT):
     start = time.time()
     red = (0, MAX, 0)
     white = (MAX, MAX, MAX)
+    f = lambda x, y: x + y <= 0.5
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        left_of_middle = {k for k, v in matrix.mapping.items() if v[0] < 0.5}
-        pixels[:] = [
-            red if i in left_of_middle else white for i, _ in enumerate(pixels)
-        ]
+        for i, (x, y) in enumerate(matrix.mapping.items()):
+            pixels[i] = red if f(x, y) else white
         pixels.show()
         while True:
             time.sleep(0.03)
