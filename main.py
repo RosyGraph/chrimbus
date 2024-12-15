@@ -110,7 +110,7 @@ def pinwheel(time_limit=TIME_LIMIT):
         matrix = LEDMatrix(
             pixels=pixels,
         )
-        for i, (x, y) in enumerate(matrix.mapping.items()):
+        for i, (x, y) in matrix.mapping.items():
             pixels[i] = red if f(x, y) else white
         pixels.show()
         while True:
