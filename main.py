@@ -17,6 +17,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "rg_radial_gradient",
     "linear_gradient",
     "radial_gradient",
     "pinwheel",
@@ -84,6 +85,34 @@ class Color:
         return (self.green, self.red, self.blue)
 
 
+def rg_radial_gradient(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+        center = (matrix.width / 2, matrix.height / 2)
+        r_max = math.sqrt((matrix.width / 2) ** 2 + (matrix.height / 2) ** 2)
+
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
+                time_offset = (time.time() * 0.5) % 1
+                base_hue = (r + time_offset) % 1
+                if base_hue < 0.5:
+                    hue = base_hue * 0.32
+                else:
+                    hue = 0.33 + (base_hue - 0.5) * 0.34
+                saturation = 1
+                value = 1.0
+                rgb = colorsys.hsv_to_rgb(hue, saturation, value)
+                red, green, blue = [int(c * MAX) for c in rgb]
+                pixels[i] = (green, red, 0)
+
+            pixels.show()
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
+
+
 def radial_gradient(time_limit=TIME_LIMIT):
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
@@ -99,7 +128,7 @@ def radial_gradient(time_limit=TIME_LIMIT):
                 value = 1.0
                 rgb = colorsys.hsv_to_rgb(hue, saturation, value)
                 red, green, blue = [int(c * MAX) for c in rgb]
-                pixels[i] = (green, red, 0)
+                pixels[i] = (green, red, blue)
             pixels.show()
             elapsed = time.time() - start
             if elapsed > time_limit * 60:
