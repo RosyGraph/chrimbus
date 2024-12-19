@@ -17,6 +17,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "skewed_wave",
     "red_to_white",
     "blue_to_white",
     # "rg_radial_gradient",
@@ -85,6 +86,36 @@ class Color:
         elif self.next_color_value == MAX:
             setattr(self, self.current_color, self.current_color_value - 1)
         return (self.green, self.red, self.blue)
+
+
+def periodic_skewed_exponential(t, period=2 * math.pi, skew=0.5, steepness=10):
+    t_mod = t % period
+    if t_mod < period * skew:
+        normalized_t = t_mod / (period * skew)
+        return math.exp(-steepness * (1 - normalized_t) ** 2)
+    else:
+        normalized_t = (t_mod - period * skew) / (period * (1 - skew))
+        return math.exp(-steepness * normalized_t**2)
+
+
+def skewed_wave(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                bound_t = (time.time() * 0.5) % 1
+                intensity = periodic_skewed_exponential(bound_t)
+                green_intensity = int(MAX * intensity)
+                red_intensity = MAX
+                blue_intensity = int(MAX * intensity)
+                pixels[i] = (green_intensity, red_intensity, blue_intensity)
+            pixels.show()
+
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
 
 
 def red_to_white(time_limit=TIME_LIMIT):
