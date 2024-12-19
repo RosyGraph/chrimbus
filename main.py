@@ -102,11 +102,11 @@ def skewed_wave(time_limit=TIME_LIMIT):
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(pixels=pixels)
-
+        period = 2 * math.pi
         while True:
             for i, (x, y) in matrix.mapping.items():
-                bound_t = time.time() * 0.5
-                intensity = periodic_skewed_exponential(bound_t * 2 * math.pi * y)
+                bound_t = (time.time() * 0.5) % period
+                intensity = periodic_skewed_exponential(bound_t + period * y)
                 green_intensity = int(MAX * intensity)
                 red_intensity = MAX
                 blue_intensity = int(MAX * intensity)
