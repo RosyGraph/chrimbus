@@ -5,13 +5,13 @@ import time
 import neopixel
 
 from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
-from patterns import magi_seraching_for_a_king
 from patterns.blue_to_white import blue_to_white
 from patterns.candy_cane import candy_cane
 from patterns.carnival import carnival
 from patterns.chrimbus import chrimbus
 from patterns.constipated import constipated
 from patterns.linear_gradient import linear_gradient
+from patterns.magi_searching_for_a_king import magi_searching_for_a_king
 from patterns.mono_rainbow import mono_rainbow
 from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
@@ -24,7 +24,7 @@ from patterns.skewed_wave import skewed_wave
 from patterns.twinkly_snow import twinkly_snow
 
 PATTERNS = {
-    "magi_seraching_for_a_king": magi_seraching_for_a_king,
+    "magi_seraching_for_a_king": magi_searching_for_a_king,
     "skewed_wave": skewed_wave,
     "red_to_white": red_to_white,
     "blue_to_white": blue_to_white,
