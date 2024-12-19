@@ -88,5 +88,7 @@ if __name__ == "main":
         clear()
     if args.diagnostic:
         diagnostic()
+    if args.pattern == "parade":
+        parade(time_limit=args.time)
     else:
         PATTERNS[args.pattern](time_limit=args.time)
