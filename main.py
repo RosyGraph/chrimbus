@@ -96,7 +96,7 @@ def blue_to_white(time_limit=TIME_LIMIT):
         while True:
             for i, (x, y) in matrix.mapping.items():
                 r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
-                time_factor = (math.sin(time.time() * 0.5) + 1) / 2
+                time_factor = (time.time() * 0.5) % 1
                 blue_intensity = max(MAX // 2, int(MAX * (1 - r) * time_factor))
                 red_intensity = int(MAX * r * time_factor)
                 green_intensity = int(MAX * r * time_factor)
