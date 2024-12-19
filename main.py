@@ -16,7 +16,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
-    "radial_graident",
+    "radial_gradient",
     "pinwheel",
     "rg_matrix",
     "mono_rainbow",
@@ -82,7 +82,7 @@ class Color:
         return (self.green, self.red, self.blue)
 
 
-def radial_graident(time_limit=TIME_LIMIT):
+def radial_gradient(time_limit=TIME_LIMIT):
     start = time.time()
     with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
         matrix = LEDMatrix(pixels=pixels)
@@ -91,7 +91,7 @@ def radial_graident(time_limit=TIME_LIMIT):
             for i, (x, y) in matrix.mapping.items():
                 r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2)
                 intensity = int(r / matrix.width * MAX)
-                pixels[i] = (intensity, intensity, intensity)
+                pixels[i] = (intensity, 0, MAX - intensity)
                 pixels.show()
                 time.sleep(0.01)
             elapsed = time.time() - start
