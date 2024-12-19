@@ -17,6 +17,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "red_to_white",
     "blue_to_white",
     # "rg_radial_gradient",
     "linear_gradient",
@@ -84,6 +85,29 @@ class Color:
         elif self.next_color_value == MAX:
             setattr(self, self.current_color, self.current_color_value - 1)
         return (self.green, self.red, self.blue)
+
+
+def red_to_white(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+        center = (matrix.width / 2, matrix.height / 2)
+        r_max = math.sqrt((matrix.width / 2) ** 2 + (matrix.height / 2) ** 2)
+
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
+                time_factor = (math.sin(time.time()) + 1) / 2
+                blue_intensity = int(MAX * r * time_factor)
+                red_intensity = max(MAX // 2, int(MAX * (1 - r) * time_factor))
+                green_intensity = int(MAX * r * time_factor)
+                pixels[i] = (red_intensity, green_intensity, blue_intensity)
+            pixels.show()
+            time.sleep(0.01)
+
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
 
 
 def blue_to_white(time_limit=TIME_LIMIT):
