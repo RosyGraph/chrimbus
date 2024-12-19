@@ -1,4 +1,5 @@
 import argparse
+import math
 import random
 import subprocess
 import time
@@ -15,6 +16,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "radial_graident",
     "pinwheel",
     "rg_matrix",
     "mono_rainbow",
@@ -78,6 +80,23 @@ class Color:
         elif self.next_color_value == MAX:
             setattr(self, self.current_color, self.current_color_value - 1)
         return (self.green, self.red, self.blue)
+
+
+def radial_graident(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+        center = (matrix.width / 2, matrix.height / 2)
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2)
+                intensity = int(r / matrix.width * MAX)
+                pixels[i] = (intensity, intensity, intensity)
+                pixels.show()
+                time.sleep(0.01)
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
 
 
 def linspace(start, stop, num=NUM_LIGHTS):
