@@ -1,4 +1,5 @@
 import argparse
+import colorsys
 import math
 import random
 import subprocess
@@ -92,8 +93,13 @@ def radial_gradient(time_limit=TIME_LIMIT):
         while True:
             for i, (x, y) in matrix.mapping.items():
                 r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
-                intensity = int((r**1.5) * MAX)
-                pixels[i] = (intensity, 0, MAX - intensity)
+                hue = (r + time.time() * 0.1) % 1
+                saturation = 1
+                value = 1.0
+                rgb = colorsys.hsv_to_rgb(hue, saturation, value)
+                red, green, blue = [int(c * MAX) for c in rgb]
+                pixels[i] = (green, red, blue)
+                time.sleep(0.01)
             pixels.show()
             time.sleep(0.01)
             elapsed = time.time() - start
