@@ -70,7 +70,7 @@ class MockNeoPixel:
     def fill(self, color):
         print(f"Fill called with color: {color}")  # Debug print
         if len(color) == 3:
-            color = (color[1], color[0], color[2])  # Convert RGB to GRB
+            color = (color[0], color[1], color[2])  # Convert RGB to GRB
         self._pixels = [color] * self.num_lights
         if self.auto_write:
             self.show()
