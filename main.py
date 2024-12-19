@@ -105,10 +105,30 @@ def skewed_wave(time_limit=TIME_LIMIT):
         period = 2 * math.pi
         while True:
             for i, (x, y) in matrix.mapping.items():
-                bound_t = (time.time() * 0.3) % period
+                bound_t = (time.time()) % period
                 intensity = periodic_skewed_exponential(bound_t + period * y)
-                green_intensity = int(MAX * intensity)
-                red_intensity = MAX
+                green_intensity = int(MAX * ((math.cos(bound_t) + 1) / 2) * x)
+                red_intensity = int(MAX * (1 - intensity))
+                blue_intensity = int(MAX * intensity)
+                pixels[i] = (green_intensity, red_intensity, blue_intensity)
+            pixels.show()
+
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
+
+
+def rainbow_wave(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+        period = 2 * math.pi
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                bound_t = (time.time()) % period
+                intensity = periodic_skewed_exponential(bound_t + period * y)
+                green_intensity = int(MAX * ((math.cos(bound_t) + 1) / 2) * x)
+                red_intensity = int(MAX * (1 - intensity))
                 blue_intensity = int(MAX * intensity)
                 pixels[i] = (green_intensity, red_intensity, blue_intensity)
             pixels.show()
