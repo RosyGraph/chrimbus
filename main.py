@@ -17,6 +17,7 @@ TIME_LIMIT = float("inf")
 COLORS = {"red": (0, MAX // 4, 0), "blue": (0, 0, MAX // 4), "green": (MAX // 4, 0, 0)}
 PATTERNS = [
     # "strobe",
+    "linear_gradient",
     "radial_gradient",
     "pinwheel",
     "rg_matrix",
@@ -93,15 +94,31 @@ def radial_gradient(time_limit=TIME_LIMIT):
         while True:
             for i, (x, y) in matrix.mapping.items():
                 r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
-                hue = (r + time.time() * 0.1) % 1
+                hue = (r + time.time() * 0.5) % 1
+                saturation = 1
+                value = 1.0
+                rgb = colorsys.hsv_to_rgb(hue, saturation, value)
+                red, green, blue = [int(c * MAX) for c in rgb]
+                pixels[i] = (green, red, 0)
+            pixels.show()
+            elapsed = time.time() - start
+            if elapsed > time_limit * 60:
+                break
+
+
+def linear_gradient(time_limit=TIME_LIMIT):
+    start = time.time()
+    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        matrix = LEDMatrix(pixels=pixels)
+        while True:
+            for i, (x, y) in matrix.mapping.items():
+                hue = (x + time.time() * 0.5) % 1
                 saturation = 1
                 value = 1.0
                 rgb = colorsys.hsv_to_rgb(hue, saturation, value)
                 red, green, blue = [int(c * MAX) for c in rgb]
                 pixels[i] = (green, red, blue)
-                time.sleep(0.01)
             pixels.show()
-            time.sleep(0.01)
             elapsed = time.time() - start
             if elapsed > time_limit * 60:
                 break
