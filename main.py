@@ -96,17 +96,10 @@ def rg_radial_gradient(time_limit=TIME_LIMIT):
             for i, (x, y) in matrix.mapping.items():
                 r = math.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) / r_max
                 time_offset = (time.time() * 0.5) % 1
-                base_hue = (r + time_offset) % 1
-                if base_hue < 0.5:
-                    hue = base_hue * 0.32
-                else:
-                    hue = 0.33 + (base_hue - 0.5) * 0.34
-                saturation = 1
-                value = 1.0
-                rgb = colorsys.hsv_to_rgb(hue, saturation, value)
-                red, green, blue = [int(c * MAX) for c in rgb]
-                pixels[i] = (green, red, 0)
-
+                r_shifted = (r + time_offset) % 1
+                red_intensity = int(MAX * (1 - r_shifted))
+                green_intensity = int(MAX * r_shifted)
+                pixels[i] = (green_intensity, red_intensity, 0)
             pixels.show()
             elapsed = time.time() - start
             if elapsed > time_limit * 60:
