@@ -105,7 +105,7 @@ def skewed_wave(time_limit=TIME_LIMIT):
         period = 2 * math.pi
         while True:
             for i, (x, y) in matrix.mapping.items():
-                bound_t = (time.time() * 0.5) % period
+                bound_t = (time.time() * 0.3) % period
                 intensity = periodic_skewed_exponential(bound_t + period * y)
                 green_intensity = int(MAX * intensity)
                 red_intensity = MAX
