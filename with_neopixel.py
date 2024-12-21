@@ -1,14 +1,32 @@
-from functools import wraps
+import sys
+from unittest.mock import MagicMock
 
-import neopixel
+from constants import NUM_LIGHTS, TIME_LIMIT
+from mocks import MockNeoPixelModule, MockPin
 
-from constants import DATA_PIN, NUM_LIGHTS
+try:
+    import neopixel
+    from board import D18
+except ImportError:
+    mock_board = MagicMock()
+    D18 = MockPin.D18
+    sys.modules["board"] = mock_board
+
+    neopixel = MockNeoPixelModule()
 
 
 def with_neopixel(func):
-    @wraps(func)
+    """
+    Decorator to provide a NeoPixel context to pattern functions.
+    Uses a mock implementation if the NeoPixel library is unavailable.
+    """
+
     def wrapper(*args, **kwargs):
-        with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+        time_limit = kwargs.get("time_limit", TIME_LIMIT)
+        num_lights = kwargs.get("num_lights", NUM_LIGHTS)
+        auto_write = kwargs.get("auto_write", False)
+
+        with neopixel.NeoPixel(D18, num_lights, auto_write) as pixels:
             return func(pixels, *args, **kwargs)
 
     return wrapper
