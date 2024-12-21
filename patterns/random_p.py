@@ -1,9 +1,8 @@
 import random
 import time
 
-import neopixel
-
-from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
+from constants import MAX_COLOR_VAL, TIME_LIMIT
+from with_neopixel import with_neopixel
 
 
 def randomly_shift_color(color):
@@ -13,13 +12,13 @@ def randomly_shift_color(color):
     return tuple(new_color)
 
 
+@with_neopixel
 def random_p(time_limit=TIME_LIMIT):
     start = time.time()
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS) as pixels:
-        while True:
-            pixels[:] = list(map(randomly_shift_color, pixels))
-            pixels.show()
-            time.sleep(0.1)
-            elapsed = time.time() - start
-            if elapsed > time_limit * 60:
-                break
+    while True:
+        pixels[:] = list(map(randomly_shift_color, pixels))
+        pixels.show()
+        time.sleep(0.1)
+        elapsed = time.time() - start
+        if elapsed > time_limit * 60:
+            break
