@@ -1,8 +1,7 @@
 import time
 
-import neopixel
-
-from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
+from constants import MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
+from with_neopixel import with_neopixel
 
 
 class Color:
@@ -43,16 +42,16 @@ class Color:
         return (self.green, self.red, self.blue)
 
 
-def rainbow(time_limit=TIME_LIMIT):
+@with_neopixel
+def rainbow(pixels, time_limit=TIME_LIMIT):
     start = time.time()
     colors = [Color() for _ in range(NUM_LIGHTS)]
     for i, color in enumerate(colors):
-        for j in range(i * 2):
+        for _ in range(i * 2):
             next(color)
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        while True:
-            pixels[:] = [next(c) for c in colors]
-            pixels.show()
-            elapsed = time.time() - start
-            if elapsed > time_limit * 60:
-                break
+    while True:
+        pixels[:] = [next(c) for c in colors]
+        pixels.show()
+        elapsed = time.time() - start
+        if elapsed > time_limit * 60:
+            break
