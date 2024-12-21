@@ -31,6 +31,11 @@ class MockNeoPixel:
     def __len__(self):
         return self.num_lights
 
+    def __getitem__(self, idx):
+        if isinstance(idx, slice):
+            return self._pixels[idx]
+        return self._pixels[idx]
+
     def __setitem__(self, idx, color):
         if isinstance(idx, slice):
             start = idx.start if idx.start is not None else 0
