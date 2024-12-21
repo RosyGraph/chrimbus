@@ -12,6 +12,7 @@ class MockPin:
 
 class MockNeoPixel:
     """Mock implementation of NeoPixel that works for both direct use and context manager"""
+
     _instance = None
 
     def __new__(cls, pin, num_lights, auto_write=False):
@@ -84,66 +85,34 @@ class MockNeoPixelModule:
 # Create mock objects and patch modules
 mock_board = MagicMock()
 mock_board.D18 = MockPin.D18
-sys.modules['board'] = mock_board
+sys.modules["board"] = mock_board
 
 mock_neopixel = MockNeoPixelModule()
-sys.modules['neopixel'] = mock_neopixel
+sys.modules["neopixel"] = mock_neopixel
 
 # Now import the rest
 import json
-import time
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
-                             QHBoxLayout, QPushButton, QSlider, QLabel, QComboBox)
-from PyQt6.QtGui import QPainter, QColor, QPen
-from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QThread
+from PyQt6.QtCore import pyqtSignal, Qt, QThread, QTimer
+from PyQt6.QtGui import QColor, QPainter, QPen
+from PyQt6.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QSlider,
+    QVBoxLayout,
+    QWidget,
+)
+
+from constants import NUM_LIGHTS, TIME_LIMIT
 
 # Constants
-NUM_LIGHTS = 150
-MAX_COLOR_VAL = 255
-TIME_LIMIT = float("inf")
 DATA_PIN = MockPin.D18
-
-
-class LEDMatrix:
-    def __init__(self, pixels, mapping=None, width=1.0, height=1.0):
-        if mapping is None:
-            try:
-                with open("corrected_led_mapping.json") as f:
-                    self.mapping = {int(k): v for k, v in json.load(f).items()}
-            except (FileNotFoundError, json.JSONDecodeError):
-                print("Warning: LED mapping file not found or invalid. Using default mapping.")
-                self.mapping = {i: [0, 0] for i in range(NUM_LIGHTS)}
-        else:
-            self.mapping = mapping
-        self.width = width
-        self.height = height
-        self.pixels = pixels
-
-    def set_pixel(self, x, y, color):
-        closest_idx = None
-        closest_distance = float("inf")
-
-        for idx, (led_x, led_y) in self.mapping.items():
-            distance = ((led_x - x) ** 2 + (led_y - y) ** 2) ** 0.5
-            if distance < closest_distance:
-                closest_distance = distance
-                closest_idx = idx
-
-        if closest_idx is not None:
-            self.pixels[closest_idx] = color
-
-    def fill(self, color):
-        self.pixels.fill(color)
-        self.pixels.show()
-
-    def clear(self):
-        self.fill((0, 0, 0))
-
-    def show(self):
-        self.pixels.show()
 
 
 @dataclass
@@ -163,7 +132,9 @@ class LEDCanvas(QWidget):
         self.show_numbers = True
 
     def set_leds(self, leds: List[LED]):
-        print(f"Setting LEDs: {[led.color for led in leds[:5]]}")  # Debug print first 5 LEDs
+        print(
+            f"Setting LEDs: {[led.color for led in leds[:5]]}"
+        )  # Debug print first 5 LEDs
         self.leds = leds
         self.update()
 
@@ -193,15 +164,19 @@ class LEDCanvas(QWidget):
             glow_size = self.led_size * 2
             painter.setPen(Qt.PenStyle.NoPen)
             painter.setBrush(glow_color)
-            painter.drawEllipse(x - glow_size // 2, y - glow_size // 2, glow_size, glow_size)
+            painter.drawEllipse(
+                x - glow_size // 2, y - glow_size // 2, glow_size, glow_size
+            )
 
             # Draw LED
             painter.setPen(QPen(QColor(r, g, b), 1))
             painter.setBrush(QColor(r, g, b))
-            painter.drawEllipse(x - self.led_size // 2,
-                                y - self.led_size // 2,
-                                self.led_size,
-                                self.led_size)
+            painter.drawEllipse(
+                x - self.led_size // 2,
+                y - self.led_size // 2,
+                self.led_size,
+                self.led_size,
+            )
 
             # Draw LED number
             if self.show_numbers:
@@ -225,15 +200,17 @@ class PatternWorker(QThread):
     def run(self):
         try:
             import inspect
+
             sig = inspect.signature(self.pattern_func)
             params = sig.parameters
 
-            if 'pixels' in params:
+            if "pixels" in params:
                 self.pattern_func(self.time_limit, pixels=self.pixels)
             else:
                 self.pattern_func(self.time_limit)
         except Exception as e:
             print(f"Pattern thread error: {e}")
+
 
 class LEDSimulator(QMainWindow):
     update_signal = pyqtSignal(list)
@@ -301,8 +278,11 @@ class LEDSimulator(QMainWindow):
 
         try:
             # Get all Python files in the patterns directory
-            pattern_files = [f[:-3] for f in os.listdir(patterns_dir)
-                             if f.endswith('.py') and f != '__init__.py']
+            pattern_files = [
+                f[:-3]
+                for f in os.listdir(patterns_dir)
+                if f.endswith(".py") and f != "__init__.py"
+            ]
 
             for pattern_file in pattern_files:
                 try:
@@ -310,9 +290,11 @@ class LEDSimulator(QMainWindow):
                     module = importlib.import_module(f"patterns.{pattern_file}")
 
                     # Find pattern functions in the module
-                    pattern_funcs = inspect.getmembers(module,
-                                                       lambda m: inspect.isfunction(m) and not m.__name__.startswith(
-                                                           '_'))
+                    pattern_funcs = inspect.getmembers(
+                        module,
+                        lambda m: inspect.isfunction(m)
+                        and not m.__name__.startswith("_"),
+                    )
 
                     for func_name, func in pattern_funcs:
                         self.available_patterns[func_name] = func
@@ -327,6 +309,7 @@ class LEDSimulator(QMainWindow):
         if not self.available_patterns:
             # Add mono_rainbow as fallback
             from patterns.mono_rainbow import mono_rainbow
+
             self.available_patterns["mono_rainbow"] = mono_rainbow
             self.pattern_selector.addItem("mono_rainbow")
 
@@ -366,7 +349,9 @@ class LEDSimulator(QMainWindow):
 
     def _queue_update(self, pixels):
         """Queue updates instead of processing immediately"""
-        print(f"Queueing update with pixels: {pixels[:5]}")  # Debug print first 5 pixels
+        print(
+            f"Queueing update with pixels: {pixels[:5]}"
+        )  # Debug print first 5 pixels
         # Convert GRB back to RGB for display
         rgb_pixels = [(color[1], color[0], color[2]) for color in pixels]
         print(f"After conversion: {rgb_pixels[:5]}")  # Debug print
@@ -393,13 +378,17 @@ class LEDSimulator(QMainWindow):
 
     def _load_positions(self) -> List[LED]:
         try:
-            with open("corrected_led_mapping.json", 'r') as f:
+            with open("corrected_led_mapping.json", "r") as f:
                 mapping = json.load(f)
         except FileNotFoundError:
-            print("Warning: corrected_led_mapping.json not found. Using default positions.")
+            print(
+                "Warning: corrected_led_mapping.json not found. Using default positions."
+            )
             return [LED(x=-1, y=-1) for _ in range(NUM_LIGHTS)]
         except json.JSONDecodeError:
-            print("Warning: Invalid JSON in corrected_led_mapping.json. Using default positions.")
+            print(
+                "Warning: Invalid JSON in corrected_led_mapping.json. Using default positions."
+            )
             return [LED(x=-1, y=-1) for _ in range(NUM_LIGHTS)]
 
         leds = []
