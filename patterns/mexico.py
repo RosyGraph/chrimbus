@@ -1,12 +1,12 @@
 import random
 import time
 
-import neopixel
+from constants import MAX_COLOR_VAL, TIME_LIMIT
+from with_neopixel import with_neopixel
 
-from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
 
-
-def mexico(time_limit=TIME_LIMIT):
+@with_neopixel
+def mexico(pixels, time_limit=TIME_LIMIT):
     start = time.time()
     white = (MAX_COLOR_VAL, MAX_COLOR_VAL, MAX_COLOR_VAL)
     green = (MAX_COLOR_VAL, 0, 0)
@@ -20,11 +20,10 @@ def mexico(time_limit=TIME_LIMIT):
             return red
         return white
 
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        while True:
-            pixels[:] = [map_p() for _ in pixels]
-            pixels.show()
-            time.sleep(0.3)
-            elapsed = time.time() - start
-            if elapsed > time_limit * 60:
-                break
+    while True:
+        pixels[:] = [map_p() for _ in pixels]
+        pixels.show()
+        time.sleep(0.3)
+        elapsed = time.time() - start
+        if elapsed > time_limit * 60:
+            break
