@@ -1,7 +1,4 @@
-import board
-
 NUM_LIGHTS = 150
-DATA_PIN = board.D18
 MAX_COLOR_VAL = 255
 TIME_LIMIT = float("inf")
 

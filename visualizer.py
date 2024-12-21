@@ -1,97 +1,6 @@
-import importlib
-import inspect
+import json
 import os
 import sys
-from unittest.mock import MagicMock
-
-
-# Set up mocks before any other imports
-class MockPin:
-    D18 = "D18"
-
-
-class MockNeoPixel:
-    """Mock implementation of NeoPixel that works for both direct use and context manager"""
-
-    _instance = None
-
-    def __new__(cls, pin, num_lights, auto_write=False):
-        if cls._instance is None:
-            cls._instance = super(MockNeoPixel, cls).__new__(cls)
-            cls._instance.num_lights = num_lights
-            cls._instance.auto_write = auto_write
-            cls._instance._pixels = [(0, 0, 0)] * num_lights
-            cls._instance._callback = None
-        return cls._instance
-
-    def __init__(self, pin, num_lights, auto_write=False):
-        # These values are kept for reference but not reset due to singleton pattern
-        self.num_lights = num_lights
-        self.auto_write = auto_write
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.fill((0, 0, 0))
-        self.show()
-
-    def __len__(self):
-        return self.num_lights
-
-    def __setitem__(self, idx, color):
-        if isinstance(idx, slice):
-            start = idx.start if idx.start is not None else 0
-            stop = idx.stop if idx.stop is not None else len(self)
-            step = idx.step if idx.step is not None else 1
-
-            if isinstance(color, list):
-                for i, pos in enumerate(range(start, stop, step)):
-                    if pos < len(self):
-                        if len(color[min(i, len(color) - 1)]) == 3:
-                            c = color[min(i, len(color) - 1)]
-                            self._pixels[pos] = (c[0], c[1], c[2])
-            else:
-                for pos in range(start, stop, step):
-                    if pos < len(self):
-                        if len(color) == 3:
-                            self._pixels[pos] = (color[0], color[1], color[2])
-        else:
-            if len(color) == 3:
-                self._pixels[idx] = (color[0], color[1], color[2])
-
-        if self.auto_write:
-            self.show()
-
-    def show(self):
-        print("Show called, pixels:", self._pixels)  # Debug print
-        if self._callback:
-            self._callback(self._pixels)
-
-    def fill(self, color):
-        print(f"Fill called with color: {color}")  # Debug print
-        if len(color) == 3:
-            color = (color[0], color[1], color[2])  # Convert RGB to GRB
-        self._pixels = [color] * self.num_lights
-        if self.auto_write:
-            self.show()
-
-
-class MockNeoPixelModule:
-    def NeoPixel(self, pin, num_lights, auto_write=False):
-        return MockNeoPixel(pin, num_lights, auto_write)
-
-
-# Create mock objects and patch modules
-mock_board = MagicMock()
-mock_board.D18 = MockPin.D18
-sys.modules["board"] = mock_board
-
-mock_neopixel = MockNeoPixelModule()
-sys.modules["neopixel"] = mock_neopixel
-
-# Now import the rest
-import json
 from dataclasses import dataclass
 from typing import List, Tuple
 
@@ -110,6 +19,8 @@ from PyQt6.QtWidgets import (
 )
 
 from constants import NUM_LIGHTS, TIME_LIMIT
+from mocks import MockNeoPixel, MockPin
+from pattern_definition import PATTERNS
 
 # Constants
 DATA_PIN = MockPin.D18
@@ -132,9 +43,6 @@ class LEDCanvas(QWidget):
         self.show_numbers = True
 
     def set_leds(self, leds: List[LED]):
-        print(
-            f"Setting LEDs: {[led.color for led in leds[:5]]}"
-        )  # Debug print first 5 LEDs
         self.leds = leds
         self.update()
 
@@ -159,7 +67,6 @@ class LEDCanvas(QWidget):
 
             # Draw LED glow (larger, semi-transparent circle)
             r, g, b = led.color
-            print(f"LED {i} color: {led.color}")  # Debug print
             glow_color = QColor(r, g, b, 50)  # Semi-transparent
             glow_size = self.led_size * 2
             painter.setPen(Qt.PenStyle.NoPen)
@@ -272,46 +179,20 @@ class LEDSimulator(QMainWindow):
         self.show()
 
     def load_patterns(self):
-        """Load all pattern modules from the patterns directory"""
-        patterns_dir = "patterns"
+        """Load all pattern functions from the PATTERNS dictionary"""
         self.available_patterns = {}
 
-        try:
-            # Get all Python files in the patterns directory
-            pattern_files = [
-                f[:-3]
-                for f in os.listdir(patterns_dir)
-                if f.endswith(".py") and f != "__init__.py"
-            ]
+        if not PATTERNS:
+            print("No patterns defined in the PATTERNS dictionary.")
+            raise ValueError("PATTERNS dictionary is empty.")
 
-            for pattern_file in pattern_files:
-                try:
-                    # Import the module
-                    module = importlib.import_module(f"patterns.{pattern_file}")
-
-                    # Find pattern functions in the module
-                    pattern_funcs = inspect.getmembers(
-                        module,
-                        lambda m: inspect.isfunction(m)
-                        and not m.__name__.startswith("_"),
-                    )
-
-                    for func_name, func in pattern_funcs:
-                        self.available_patterns[func_name] = func
-                        self.pattern_selector.addItem(func_name)
-
-                except ImportError as e:
-                    print(f"Error importing {pattern_file}: {e}")
-
-        except FileNotFoundError:
-            print("Patterns directory not found")
+        for func_name, func in PATTERNS.items():
+            self.available_patterns[func_name] = func
+            self.pattern_selector.addItem(func_name)
 
         if not self.available_patterns:
-            # Add mono_rainbow as fallback
-            from patterns.mono_rainbow import mono_rainbow
-
-            self.available_patterns["mono_rainbow"] = mono_rainbow
-            self.pattern_selector.addItem("mono_rainbow")
+            print("No valid patterns were loaded.")
+            raise ValueError("No valid patterns available.")
 
     def change_pattern(self, pattern_name):
         """Change to selected pattern"""
@@ -349,19 +230,14 @@ class LEDSimulator(QMainWindow):
 
     def _queue_update(self, pixels):
         """Queue updates instead of processing immediately"""
-        print(
-            f"Queueing update with pixels: {pixels[:5]}"
-        )  # Debug print first 5 pixels
         # Convert GRB back to RGB for display
         rgb_pixels = [(color[1], color[0], color[2]) for color in pixels]
-        print(f"After conversion: {rgb_pixels[:5]}")  # Debug print
         self.pending_updates.append(rgb_pixels)
 
     def process_updates(self):
         """Process queued updates at a controlled rate"""
         if self.pending_updates:
             pixels = self.pending_updates[-1]  # Get most recent update
-            print(f"Processing update with pixels: {pixels[:5]}")  # Debug print
             self.pending_updates.clear()
             self._update_display(pixels)
 
@@ -402,11 +278,9 @@ class LEDSimulator(QMainWindow):
         return leds
 
     def _update_leds(self, pixels):
-        print(f"Update LEDs called with pixels: {pixels[:5]}")  # Debug print
         self.update_signal.emit(pixels)
 
     def _update_display(self, pixels):
-        print(f"Updating display with pixels: {pixels[:5]}")  # Debug print
         for idx, color in enumerate(pixels):
             if idx < len(self.positions):
                 self.positions[idx].color = color

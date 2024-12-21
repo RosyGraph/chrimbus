@@ -2,10 +2,9 @@ import argparse
 import subprocess
 import time
 
-import neopixel
-
-from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
+from constants import MAX_COLOR_VAL, TIME_LIMIT
 from pattern_definition import PATTERNS
+from with_neopixel import with_neopixel
 
 
 def get_cpu_temperature():
@@ -25,20 +24,20 @@ def parade(time_limit=TIME_LIMIT):
             fn(time_limit=time_limit)
 
 
-def diagnostic():
+@with_neopixel
+def diagnostic(pixels):
     time.sleep(3)
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
-        for i, _ in enumerate(pixels):
-            pixels.fill((0, 0, 0))
-            pixels[i] = (MAX_COLOR_VAL, MAX_COLOR_VAL, MAX_COLOR_VAL)
-            pixels.show()
-            time.sleep(0.5)
-
-
-def clear():
-    with neopixel.NeoPixel(DATA_PIN, NUM_LIGHTS, auto_write=False) as pixels:
+    for i, _ in enumerate(pixels):
         pixels.fill((0, 0, 0))
+        pixels[i] = (MAX_COLOR_VAL, MAX_COLOR_VAL, MAX_COLOR_VAL)
         pixels.show()
+        time.sleep(0.5)
+
+
+@with_neopixel
+def clear(pixels):
+    pixels.fill((0, 0, 0))
+    pixels.show()
 
 
 if __name__ == "main":

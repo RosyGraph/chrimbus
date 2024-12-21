@@ -1,6 +1,6 @@
 import time
 
-from constants import DATA_PIN, MAX_COLOR_VAL, NUM_LIGHTS, TIME_LIMIT
+from constants import MAX_COLOR_VAL, TIME_LIMIT
 from with_neopixel import with_neopixel
 
 
