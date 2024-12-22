@@ -17,7 +17,7 @@ from patterns.skewed_wave import skewed_wave
 from patterns.twinkly_snow import twinkly_snow
 
 PATTERNS = {
-    "magi_seraching_for_a_king": magi_searching_for_a_king,
+    "magi_searching_for_a_king": magi_searching_for_a_king,
     "skewed_wave": skewed_wave,
     "red_to_white": red_to_white,
     "blue_to_white": blue_to_white,
