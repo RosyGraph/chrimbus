@@ -51,9 +51,9 @@ if __name__ == "main":
     args = parser.parse_args()
     if args.clear:
         clear()
-    if args.diagnostic:
+    elif args.diagnostic:
         diagnostic()
-    if args.pattern == "parade":
+    elif args.pattern == "parade":
         parade(time_limit=args.time)
     else:
         PATTERNS[args.pattern](time_limit=args.time)
