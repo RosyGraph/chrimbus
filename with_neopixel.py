@@ -16,17 +16,15 @@ except ImportError:
 
 
 def with_neopixel(func):
-    """
-    Decorator to provide a NeoPixel context to pattern functions.
-    Uses a mock implementation if the NeoPixel library is unavailable.
-    """
-
     def wrapper(*args, **kwargs):
-        time_limit = kwargs.get("time_limit", TIME_LIMIT)
-        num_lights = kwargs.get("num_lights", NUM_LIGHTS)
+        time_limit = kwargs.get("time_limit", TIME_LIMIT)  # Default time_limit to 10 minutes
+        num_lights = kwargs.get(
+            "num_lights", NUM_LIGHTS
+        )  # Use NUM_LIGHTS from constants
         auto_write = kwargs.get("auto_write", False)
 
-        with neopixel.NeoPixel(D18, num_lights, auto_write) as pixels:
+        # Create the NeoPixel instance
+        with neopixel.NeoPixel(D18, num_lights, auto_write=auto_write) as pixels:
             return func(pixels, *args, **kwargs)
 
     return wrapper
