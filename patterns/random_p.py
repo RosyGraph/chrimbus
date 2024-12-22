@@ -13,7 +13,7 @@ def randomly_shift_color(color):
 
 
 @with_neopixel
-def random_p(time_limit=TIME_LIMIT):
+def random_p(pixels, time_limit=TIME_LIMIT):
     start = time.time()
     while True:
         pixels[:] = list(map(randomly_shift_color, pixels))
