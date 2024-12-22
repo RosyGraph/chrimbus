@@ -43,7 +43,7 @@ def clear(pixels):
 if __name__ == "main":
     parser = argparse.ArgumentParser(prog="Christmas Lights")
     parser.add_argument(
-        "-p", "--pattern", choices=list(PATTERNS) + ["parade"], default="white"
+        "-p", "--pattern", choices=list(PATTERNS) + ["parade"], default="chrimbus"
     )
     parser.add_argument("-c", "--clear", action="store_true")
     parser.add_argument("-d", "--diagnostic", action="store_true")
