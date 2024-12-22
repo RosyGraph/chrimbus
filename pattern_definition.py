@@ -5,7 +5,6 @@ from patterns.chrimbus import chrimbus
 from patterns.constipated import constipated
 from patterns.linear_gradient import linear_gradient
 from patterns.magi_searching_for_a_king import magi_searching_for_a_king
-from patterns.mono_rainbow import mono_rainbow
 from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
 from patterns.rainbow import rainbow
@@ -25,7 +24,7 @@ PATTERNS = {
     "radial_gradient": radial_gradient,
     "pinwheel": pinwheel,
     "rg_matrix": rg_matrix,
-    "mono_rainbow": mono_rainbow,
+    # "mono_rainbow": mono_rainbow,
     "rainbow": rainbow,
     "carnival": carnival,
     "chrimbus": chrimbus,
