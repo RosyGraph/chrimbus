@@ -71,7 +71,7 @@ def meteor(pixels, time_limit=TIME_LIMIT):
             if max_intensity > 0:
                 yellow = int(MAX_COLOR_VAL * max_intensity)
                 # Add slight glow effect with dim white
-                white = int(MAX_COLOR_VAL * max_intensity * 0.2)
+                white = MAX_COLOR_VAL - yellow
                 pixels[i] = (yellow, yellow, white)  # GRB format
             else:
                 pixels[i] = (MAX_COLOR_VAL // 2, MAX_COLOR_VAL // 2, MAX_COLOR_VAL)
