@@ -56,15 +56,18 @@ def meteor(pixels, time_limit=TIME_LIMIT):
             for drop in drops:
                 # Calculate distance from drop head
                 dist_to_head = y - drop.y
+                expected_x = drop.x - dist_to_head * 2
 
-                # If LED is within drop's trail
+                # If LED is within drop's trail and matches the 2-unit slope
                 if (
-                    abs(x - drop.x * 2) < 0.1  # Close enough horizontally
+                    abs(x - expected_x) < 0.1  # Match x-position with the slope
                     and dist_to_head <= 0  # Below or at head
-                    and dist_to_head > -drop.length
-                ):  # Above tail
+                    and dist_to_head > -drop.length  # Above tail
+                ):
                     # Intensity falls off along the trail
-                    intensity = (1 + dist_to_head / drop.length) * drop.brightness
+                    intensity = drop.brightness * max(
+                        0, 1 - (dist_to_head / drop.length) ** 2
+                    )
                     max_intensity = max(max_intensity, intensity)
 
             # Set LED color (green with varying intensity)
@@ -74,7 +77,7 @@ def meteor(pixels, time_limit=TIME_LIMIT):
                 white = MAX_COLOR_VAL - yellow
                 pixels[i] = (yellow, yellow, white)  # GRB format
             else:
-                pixels[i] = (MAX_COLOR_VAL // 2, MAX_COLOR_VAL // 2, MAX_COLOR_VAL)
+                pixels[i] = (0, 0, MAX_COLOR_VAL)
 
         pixels.show()
         time.sleep(dt)
