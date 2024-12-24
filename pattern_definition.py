@@ -9,6 +9,7 @@ from patterns.dvd_bounce import dvd_bounce
 from patterns.linear_gradient import linear_gradient
 from patterns.magi_searching_for_a_king import magi_searching_for_a_king
 from patterns.matrix_rain import matrix_rain
+from patterns.meteor import meteor
 from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
 from patterns.rainbow import rainbow
@@ -23,6 +24,7 @@ from patterns.twinkly_snow import twinkly_snow
 from patterns.video_patterns import b_video_pattern, grinch_video_pattern, nightmare_video_pattern, up_video_pattern
 
 PATTERNS = {
+    "meteor": meteor,
     "tree": tree,
     "snake": snake,
     "drumstick_outline": drumstick_outline,
