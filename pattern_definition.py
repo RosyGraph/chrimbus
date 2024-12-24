@@ -6,6 +6,7 @@ from patterns.constipated import constipated
 from patterns.dvd_bounce import dvd_bounce
 from patterns.linear_gradient import linear_gradient
 from patterns.magi_searching_for_a_king import magi_searching_for_a_king
+from patterns.matrix_rain import matrix_rain
 from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
 from patterns.rainbow import rainbow
@@ -38,4 +39,5 @@ PATTERNS = {
     "b_video": b_video_pattern,
     "up_video": up_video_pattern,
     "dvd_bounce": dvd_bounce,
+    "matrix_rain": matrix_rain,
 }
