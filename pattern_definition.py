@@ -18,8 +18,12 @@ from patterns.rg_matrix import rg_matrix
 from patterns.skewed_wave import skewed_wave
 from patterns.twinkly_snow import twinkly_snow
 from patterns.video_patterns import b_video_pattern, up_video_pattern
+from patterns.static_drumstick import static_drumstick
+from patterns.drumstick_outline import drumstick_outline
 
 PATTERNS = {
+    "drumstick_outline": drumstick_outline,
+    "static_drumstick": static_drumstick,
     "chicken_drumstick": chicken_drumstick,
     "magi_searching_for_a_king": magi_searching_for_a_king,
     "skewed_wave": skewed_wave,
