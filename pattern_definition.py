@@ -3,6 +3,7 @@ from patterns.candy_cane import candy_cane
 from patterns.carnival import carnival
 from patterns.chicken_drumstick import chicken_drumstick
 from patterns.chrimbus import chrimbus
+from patterns.cluster import cluster
 from patterns.constipated import constipated
 from patterns.drumstick_outline import drumstick_outline
 from patterns.dvd_bounce import dvd_bounce
@@ -25,6 +26,7 @@ from patterns.video_patterns import b_video_pattern, grinch_video_pattern, night
 
 PATTERNS = {
     "meteor": meteor,
+    "cluster": cluster,
     "tree": tree,
     "snake": snake,
     "drumstick_outline": drumstick_outline,
