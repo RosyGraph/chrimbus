@@ -125,8 +125,8 @@ if __name__ == "__main__":
 
     project_root = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-    video_path = project_root / "mp4" / "b.mp4"
-    output_path = project_root / "mp4" / "b.led"
+    video_path = project_root / "video_player" / "grinch.mp4"
+    output_path = project_root / "video_player" / "grinch.led"
 
     print(f"Processing video from: {video_path}")
     print(f"Saving output to: {output_path}")
