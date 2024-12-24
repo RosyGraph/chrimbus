@@ -12,6 +12,11 @@ def grinch_video_pattern(pixels, time_limit=None):
   
 
 @with_neopixel
+def grinch_video_pattern(pixels, time_limit=None):
+    return video_pattern(pixels, time_limit, "./video_player/grinch.led")
+  
+
+@with_neopixel
 def up_video_pattern(pixels, time_limit=None):
     return video_pattern(pixels, time_limit, "./video_player/up.led")
 
