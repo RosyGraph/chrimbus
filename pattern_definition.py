@@ -3,6 +3,7 @@ from patterns.candy_cane import candy_cane
 from patterns.carnival import carnival
 from patterns.chrimbus import chrimbus
 from patterns.constipated import constipated
+from patterns.dvd_bounce import dvd_bounce
 from patterns.linear_gradient import linear_gradient
 from patterns.magi_searching_for_a_king import magi_searching_for_a_king
 from patterns.pinwheel import pinwheel
@@ -36,4 +37,5 @@ PATTERNS = {
     "constipated": constipated,
     "b_video": b_video_pattern,
     "up_video": up_video_pattern,
+    "dvd_bounce": dvd_bounce,
 }
