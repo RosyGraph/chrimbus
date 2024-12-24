@@ -18,10 +18,12 @@ from patterns.rg_chase import rg_chase
 from patterns.rg_matrix import rg_matrix
 from patterns.skewed_wave import skewed_wave
 from patterns.snake import snake
+from patterns.tree import tree
 from patterns.twinkly_snow import twinkly_snow
 from patterns.video_patterns import b_video_pattern, grinch_video_pattern, nightmare_video_pattern, up_video_pattern
 
 PATTERNS = {
+    "tree": tree,
     "snake": snake,
     "drumstick_outline": drumstick_outline,
     # "static_drumstick": static_drumstick,
