@@ -19,7 +19,7 @@ def meteor(pixels, time_limit=TIME_LIMIT):
             self.x = x
             self.y = 0.0  # Start at bottom
             self.speed = random.uniform(0.2, 0.8)
-            self.length = random.uniform(0.2, 0.4)  # Trail length
+            self.length = random.uniform(0.4, 0.8)  # Trail length
             self.brightness = random.uniform(0.5, 1.0)
 
     # Create initial drops
@@ -59,7 +59,7 @@ def meteor(pixels, time_limit=TIME_LIMIT):
 
                 # If LED is within drop's trail
                 if (
-                    abs(x - drop.x) < 0.1  # Close enough horizontally
+                    abs(x - drop.x * 2) < 0.1  # Close enough horizontally
                     and dist_to_head <= 0  # Below or at head
                     and dist_to_head > -drop.length
                 ):  # Above tail
