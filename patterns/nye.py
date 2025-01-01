@@ -25,9 +25,7 @@ def nye(pixels, time_limit=TIME_LIMIT):
 
     pixels.fill((0, 0, 0))
     while True:
-        now = datetime(2024, 12, 31, 11, 59, 55)  # Fixed time for testing logic
-        # new year
-        # now = datetime(2025, 1, 1, 0, 0, 0)
+        now = datetime.now()
         if now.hour != 0:
             if now.minute < 55:
                 # sunrise
