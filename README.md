@@ -37,7 +37,13 @@ You can find the challenge stubs in the `challenges` directory.
     - Circle
     - Triangle
     - Checkerboard
-- _More to come, ideas welcome..._
+    - Star
+- Basic Animation
+    - Falling snow
+    - Radial sweep
+- Advanced
+    - Snow wisps -- simulate wind-blown snow
+    - Spiral -- start at the center and spiral outward
 
 ### Setting pixel colors using indexing and slicing
 
