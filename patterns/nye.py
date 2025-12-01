@@ -40,10 +40,10 @@ def nye(pixels, time_limit=TIME_LIMIT):
                 if now.minute < 59:
                     pixels.fill((MAX_COLOR_VAL, 0, 0))
                     pixels.show()
-                    time.sleep(0.2)
+                    time.sleep(1)
                     pixels.fill((0, 0, 0))
                     pixels.show()
-                    time.sleep(0.2)
+                    time.sleep(1)
                 else:
                     if now.second < 50:
                         for i, (x, y) in matrix.mapping.items():

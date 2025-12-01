@@ -16,44 +16,48 @@ from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
 from patterns.rainbow import rainbow
 from patterns.random_p import random_p
+from patterns.improved_random_p import improved_random_p
 from patterns.red_to_white import red_to_white
 from patterns.rg_chase import rg_chase
 from patterns.rg_matrix import rg_matrix
 from patterns.skewed_wave import skewed_wave
+from patterns.solid_red import solid_red
 from patterns.snake import snake
 from patterns.tree import tree
 from patterns.twinkly_snow import twinkly_snow
 from patterns.video_patterns import b_video_pattern, grinch_video_pattern, nightmare_video_pattern, up_video_pattern
 
 PATTERNS = {
-    "nye": nye,
-    "chrimbus": chrimbus,
-    "twinkly_snow": twinkly_snow,
-    "rainbow": rainbow,
-    "dvd_bounce": dvd_bounce,
-    "magi_searching_for_a_king": magi_searching_for_a_king,
-    "carnival": carnival,
-    "meteor": meteor,
-    "red_to_white": red_to_white,
-    "rg_chase": rg_chase,
-    "tree": tree,
-    "linear_gradient": linear_gradient,
-    "cluster": cluster,
-    "chicken_drumstick": chicken_drumstick,
-    "candy_cane": candy_cane,
-    "snake": snake,
-    "blue_to_white": blue_to_white,
-    "grinch_video": grinch_video_pattern,
-    "drumstick_outline": drumstick_outline,
-    "radial_gradient": radial_gradient,
-    "skewed_wave": skewed_wave,
-    "pinwheel": pinwheel,
-    "rg_matrix": rg_matrix,
-    "random_p": random_p,
-    "constipated": constipated,
-    "matrix_rain": matrix_rain,
+#     "nye": nye,
+     "chrimbus": chrimbus,
+     "twinkly_snow": twinkly_snow,
+#     "rainbow": rainbow,
+#     "dvd_bounce": dvd_bounce,
+#     "magi_searching_for_a_king": magi_searching_for_a_king,
+     "solid_red": solid_red,
+     "carnival": carnival,
+     "meteor": meteor,
+     "red_to_white": red_to_white,
+     "rg_chase": rg_chase,
+#     "tree": tree,
+#     "linear_gradient": linear_gradient,
+#     "cluster": cluster,
+#     "chicken_drumstick": chicken_drumstick,
+     "candy_cane": candy_cane,
+#     "snake": snake,
+     "blue_to_white": blue_to_white,
+#     "grinch_video": grinch_video_pattern,
+#     "drumstick_outline": drumstick_outline,
+     "radial_gradient": radial_gradient,
+     "skewed_wave": skewed_wave,
+#     "pinwheel": pinwheel,
+     "rg_matrix": rg_matrix,
+     "random_p": random_p,
+     "improved_random_p": improved_random_p,
+#     "constipated": constipated,
+#     "matrix_rain": matrix_rain,
     # "static_drumstick": static_drumstick,
-    # "mono_rainbow": mono_rainbow,
+     # "mono_rainbow": mono_rainbow,
     # "b_video": b_video_pattern,
     # "up_video": up_video_pattern,
     # "nightmare_video": nightmare_video_pattern,
