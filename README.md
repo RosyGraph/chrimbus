@@ -10,7 +10,7 @@ Assuming you do not have a Raspberry Pi set up with lights in the same configura
 
 ## Contributing
 
-In order to control the lights, the neopixels library must be installed in the system python of the Raspberry Pi. For this reason, this project supports **only Python 3.7**. Please ensure your submitted patterns are compatible with this version.
+In order to control the lights, the neopixels library must be installed in the system Python of the Raspberry Pi. For this reason, this project supports **only Python 3.7**. Please ensure your submitted patterns are compatible with this version.
 - ✅ OK:
     - f-strings
     - `dataclasses` (builtin in 3.7)
@@ -27,11 +27,11 @@ To submit a pattern, simply fork this repository and (optionally) open a pull re
 
 ## Pattern Authoring
 
-There are many example patterns in the `patterns/` directory. You should model your pattern after these examples. Namely, the pattern should use the `@with_pixels` decorator to ensure compatibility with the visualizer.
+There are many example patterns in the `patterns/` directory. You should model your pattern after these examples. Namely, the pattern should use the `@with_neopixel` decorator to ensure compatibility with the visualizer.
 
 ## Challenges
 
-The Chrimbus display has gone dark. The reindeer are grounded, the storm sprites are confused, and the confectionary production line is behind schedule for the first time in centuries. To prevent a global cheer shortage, you must complete a series of tasks enscribed on the Workshop Ledger.
+The Chrimbus display has gone dark. The reindeer are grounded, the storm sprites are confused, and the confectionery production line is behind schedule for the first time in centuries. To prevent a global cheer shortage, you must complete a series of tasks inscribed on the Workshop Ledger.
 
 ### The Workshop Ledger
 
@@ -54,7 +54,7 @@ True Chrimbus spirit comes from mittened hands and warm `print()`s.
 
 ### Setting pixel colors using indexing and slicing
 
-Using the `@with_pixels` decorator allows you to set the color of each light (or pixel). The simplest example is `white.py`.
+Using the `@with_neopixels` decorator allows you to set the color of each light (or pixel). The simplest example is `white.py`.
 
 ```python
 @with_neopixel
@@ -74,7 +74,7 @@ Two subtle details are of note.
 - Though we set each pixel, we do _not_ reassign the `pixels` variable. Rather, we reassign the slice of the `pixels` list.
 - The tuple `(value, value, value)` is a tuple of three integers corresponding to (green, red, blue) values. **The tuples are NOT RGB; they are GRB.**
 
-Setting individul pixels is also possible.
+Setting individual pixels is also possible.
 
 ```python
 from with_neopixel import with_neopixel
