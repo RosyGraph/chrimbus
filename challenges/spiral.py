@@ -5,7 +5,7 @@ The Arctic Elven Anthropologists have discovered a forgotten ritual within the N
 Beginning at the center, a single point of light emanates outward in a spiral pattern, growing and growing until it fills the window.
 
 Animate a spiral that starts from the center of the display and expands outward.
-Any type of spiral, logarithmic, Archimedean, or invetned will suffice.
+Any type of spiral, logarithmic, Archimedean, or invented will suffice.
 
 Long ago, before the snow
 Noone knows quite when or how
