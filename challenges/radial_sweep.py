@@ -1,3 +1,15 @@
+"""
+-- Challenge 06: Polar Radar --
+
+After the recent near-collision during the Flight Agility Readiness Trial, the North Pole Aerosleigh Command requires a functional radar-like sweep display to track reindeer flight patterns in real time.
+
+Your task is to illuminate a rotating radial sweep centered on the display.
+The sweep should rotate smoothly around the center, like the beam of an old-world radar.
+HINT: https://docs.python.org/3/library/math.html#math.atan2
+
+When the beam turns uninterrupted, the sleigh will once again master the sky.
+"""
+
 import random
 import time
 

@@ -1,3 +1,14 @@
+"""
+-- Challenge 02: Fir-tual Tree  --
+
+To train rookie elves on safe ladder-climbing and tree-decorating techniques, the North Pole Workshop uses a virtual Chrimbus tree.
+This year, due to an increase in new elf trainees, the workshop needs a larger virtual tree display.
+
+Render a triangle region of pixels to represent the shape of a fir tree.
+
+When the triangle is correctly displayed, the elves will be able to practice their decorating skills without the risk of harming a single pine needle.
+"""
+
 import math
 import time
 

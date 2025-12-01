@@ -1,3 +1,15 @@
+"""
+-- Challenge 05: Silent Snowfall --
+
+The forecast promised a gentle snowfall for Chrimbus Eve, but the storm sprites have forgotten how snow is supposed to fall.
+They need a demonstration.
+
+Simulate snow drifting from the top of the display downwards.
+Flakes that reach the bottom should disappear.
+
+When the snow falls softly without end, the sprites will remember their purpose.
+"""
+
 import random
 import time
 

@@ -35,8 +35,8 @@ You can find the challenge stubs in the `challenges` directory.
 
 - Static Shapes
     - Circle
-    - Triangle
-    - Checkerboard
+    - Triangle / Christmas tree
+    - Candy cane stripes
     - Star
 - Basic Animation
     - Falling snow

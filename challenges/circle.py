@@ -1,3 +1,16 @@
+"""
+-- Challenge 01: Nose So Bright --
+
+The Chrimbus reindeer handlers have discovered that Rudolf's famous nose has dimmed.
+Without its brilliant glow, the reindeer cannot guide Santa's sleigh through the foggy night sky.
+In order to restore its radiant shine, the elves require a perfect red circle projected onto the window grid.
+
+Your task is to illuminate a circle centered on the display.
+Use the pixel coordinates provided by LEDMatrix.
+
+Once the circle is correctly displayed, the elves will be able to recalibrate Rudolf's nose, and the sleigh can take flight once more.
+"""
+
 import math
 import time
 

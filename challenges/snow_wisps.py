@@ -1,3 +1,17 @@
+"""
+-- Challenge 07: The Wandering Wind (Advanced) --
+
+The previous forecast promising a gentle snowfall has been revised by the Yuletide Arctic Meteorological Society.
+A swift wind is now expected to stir the precipitation into long, restless trails.
+Without understanding its pattern, the sprites cannot maintain safe conditions for Chrimbus Eve's aerial navigation.
+
+Your task is to simulate snowflakes tossed by shifting wind.
+Snow should drift primarily downward, but with varying sideways motion that changes over time.
+The effect should suggest gusts, calm pauses, and wandering currents.
+
+When the snow dances in wild and wandering patterns, the sprites will learn to guide it, and the sky will once again be ready for the reindeer to fly.
+"""
+
 import random
 import time
 
