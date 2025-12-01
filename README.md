@@ -2,7 +2,7 @@
 
 Chrimbus is a repository for controlling the grid of Christmas lights set up in my window. The lights are controlled by a Raspberry Pi using [neopixels](https://github.com/adafruit/Adafruit_NeoPixel). The lights are mapped to a 2D grid based on their physical location in the window.
 
-...include movie here...
+Write patterns. Run them on the Pi (or the visualizer). Enjoy blinking lights.
 
 ## Getting Started
 
@@ -11,14 +11,33 @@ Assuming you do not have a Raspberry Pi set up with lights in the same configura
 ## Contributing
 
 In order to control the lights, the neopixels library must be installed in the system python of the Raspberry Pi. For this reason, this project supports **only Python 3.7**. Please ensure your submitted patterns are compatible with this version.
+- ✅ OK:
+    - f-strings
+    - `dataclasses` (builtin in 3.7)
+	- `typing` module (`List`, `Dict`, etc.)
+- ❌ Avoid:
+    - `match` / `case` (Python 3.10+)
+    - Walrus operator `:=` (Python 3.8+)
+    - Builtin generics like `list[int]`, `dict[str, int]` (Python 3.9+)
+    - `typing.Annotated`, `typing.TypedDict` as _builtins_ syntax
 
 Please do not include any patterns which are offensive or otherwise inappropriate as the lights are displayed publicly.
 
-To submit a pattern, simply fork this repository and open a pull request. Your pattern should live in the `patterns/` directory.
+To submit a pattern, simply fork this repository and (optionally) open a pull request. Your pattern should live in the `patterns/` directory.
 
 ## Pattern Authoring
 
 There are many example patterns in the `patterns/` directory. You should model your pattern after these examples. Namely, the pattern should use the `@with_pixels` decorator to ensure compatibility with the visualizer.
+
+### Challenges
+
+You can find the challenge stubs in the `challenges` directory.
+
+- Static Shapes
+    - Circle
+    - Triangle
+    - Checkerboard
+- _More to come, ideas welcome..._
 
 ### Setting pixel colors using indexing and slicing
 
