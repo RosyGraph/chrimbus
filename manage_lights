@@ -2,24 +2,24 @@
 
 # Path to the main.py script
 SCRIPT_DIR=/home/pi/chrimbus  # Explicit path to avoid user-specific issues
-PYTHON_EXEC="sudo python3.7 -m main.py"
+PYTHON_EXEC="sudo python3.7 /home/pi/chrimbus/main.py"
 
 # Log file
 LOG_FILE="/home/pi/chrimbus/chrimbus.log"  # Change to a user-writable path
 
 # Functions
 kill_lights() {
-    echo "$(date): Killing existing light processes..." >> "$LOG_FILE"
-    sudo pkill -f "python3.7 -m main.py"
-    echo "$(date): Turning off LEDs..." >> "$LOG_FILE"
-    cd "$SCRIPT_DIR" && $PYTHON_EXEC -c >> "$LOG_FILE" 2>&1
+        echo "$(date): Killing existing light processes..." >> "$LOG_FILE"
+            sudo pkill -f "python3.7 /home/pi/chrimbus/main.py"
+                echo "$(date): Turning off LEDs..." >> "$LOG_FILE"
+                    cd "$SCRIPT_DIR" && $PYTHON_EXEC -c >> "$LOG_FILE" 2>&1
 }
 
 start_lights() {
-    PATTERN=$1
-    TIME=$2
-    echo "$(date): Starting lights with pattern $PATTERN and time $TIME..." >> "$LOG_FILE"
-    cd "$SCRIPT_DIR" && $PYTHON_EXEC -p "$PATTERN" -t "$TIME" & echo $! > /tmp/chrimbus.pid
+        PATTERN=$1
+            TIME=$2
+                echo "$(date): Starting lights with pattern $PATTERN and time $TIME..." >> "$LOG_FILE"
+                    cd "$SCRIPT_DIR" && $PYTHON_EXEC -p "$PATTERN" -t "$TIME" & echo $! > /tmp/chrimbus.pid
 }
 
 cleanup_lights() {

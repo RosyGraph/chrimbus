@@ -1,3 +1,4 @@
+import random
 import argparse
 import subprocess
 import time
@@ -14,12 +15,15 @@ def get_cpu_temperature():
 
 def parade(time_limit=TIME_LIMIT):
     while True:
-        for pattern, fn in PATTERNS.items():
+        shuffled_patterns = random.shuffle(PATTERNS)
+        for pattern, fn in shuffled_patterns.items():
             print(f"displaying {pattern}...")
             temperature = get_cpu_temperature()
             print(f"internal temperature: {temperature}'C")
             if temperature > 70:
                 print("internal temperature too high. shutting down...")
+                with open("/home/pi/chrimbus/chrimbus.log", "a") as f: 
+                    f.write(f"{time.asctime()}: temp shutdown at {temperature}C\n")
                 exit()
             fn(time_limit=time_limit)
 
@@ -40,7 +44,7 @@ def clear(pixels):
     pixels.show()
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="Christmas Lights")
     parser.add_argument(
         "-p", "--pattern", choices=list(PATTERNS) + ["parade"], default="chrimbus"
