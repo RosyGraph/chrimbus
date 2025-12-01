@@ -1,7 +1,5 @@
 import json
 
-import matplotlib.pyplot as plt
-
 
 def normalize_mapping(mapping):
     """
@@ -36,14 +34,3 @@ with open("normalized_led_mapping.json", "w") as f:
 # Extract normalized points
 normalized_points = list(normalized_mapping.values())
 x_coords, y_coords = zip(*normalized_points)
-
-# Plot the normalized mapping
-plt.figure(figsize=(8, 6))
-plt.scatter(x_coords, y_coords, c="blue", label="Normalized LEDs", s=10)
-plt.gca().invert_yaxis()  # Invert Y-axis to match display coordinates
-plt.title("Normalized LED Mapping (0-1 Range)")
-plt.xlabel("Normalized X")
-plt.ylabel("Normalized Y")
-plt.legend()
-plt.grid()
-plt.show()

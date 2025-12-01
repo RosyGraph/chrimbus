@@ -19,8 +19,8 @@ def find_brightest_pixel(frame_path):
 def map_leds():
     """Map LEDs to their 2D positions based on frame analysis."""
     mapping = {}
-    for i in range(18, 150):
-        frame_path = os.path.join(FRAME_DIR, f"frame{i:03d}.png")
+    for i in range(150):
+        frame_path = os.path.join(FRAME_DIR, f"frame{i + 1:03d}.png")
         if not os.path.exists(frame_path):
             print(f"Frame {i} not found!")
             continue
