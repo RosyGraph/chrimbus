@@ -15,7 +15,7 @@ def get_cpu_temperature():
 
 def parade(time_limit=TIME_LIMIT):
     while True:
-        dict_items = list(PATTERNS.items())
+        dict_items = list(PATTERNS.copy().items())
         random.shuffle(dict_items)
         shuffled_patterns = dict(dict_items)
         for pattern, fn in shuffled_patterns.items():
