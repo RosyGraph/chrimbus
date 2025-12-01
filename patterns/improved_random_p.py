@@ -15,7 +15,7 @@ def randomly_shift_color(color):
 @with_neopixel
 def improved_random_p(pixels, time_limit=TIME_LIMIT):
     num_pixels = len(pixels)
-    min_n = num_pixels // 20
+    min_n = num_pixels // 3
     max_n = min_n * 2
     start = time.time()
     while True:
