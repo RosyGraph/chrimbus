@@ -25,5 +25,6 @@ def radial_gradient(pixels, time_limit=TIME_LIMIT):
             pixels[i] = (green, red, blue)
         pixels.show()
         elapsed = time.time() - start
+        time.sleep(0.02)
         if elapsed > time_limit * 60:
             break

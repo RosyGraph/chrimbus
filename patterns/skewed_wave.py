@@ -22,6 +22,7 @@ def skewed_wave(pixels, time_limit):
             pixels[i] = (green_intensity, red_intensity, blue_intensity)
         pixels.show()
 
+        time.sleep(0.002)
         elapsed = time.time() - start
         if elapsed > time_limit * 60:
             break

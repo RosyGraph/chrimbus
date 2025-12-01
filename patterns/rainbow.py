@@ -53,5 +53,6 @@ def rainbow(pixels, time_limit=TIME_LIMIT):
         pixels[:] = [next(c) for c in colors]
         pixels.show()
         elapsed = time.time() - start
+        time.sleep(0.002)
         if elapsed > time_limit * 60:
             break
