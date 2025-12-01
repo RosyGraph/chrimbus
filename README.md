@@ -29,21 +29,28 @@ To submit a pattern, simply fork this repository and (optionally) open a pull re
 
 There are many example patterns in the `patterns/` directory. You should model your pattern after these examples. Namely, the pattern should use the `@with_pixels` decorator to ensure compatibility with the visualizer.
 
-### Challenges
+## Challenges
 
-You can find the challenge stubs in the `challenges` directory.
+The Chrimbus display has gone dark. The reindeer are grounded, the storm sprites are confused, and the confectionary production line is behind schedule for the first time in centuries. To prevent a global cheer shortage, you must complete a series of tasks enscribed on the Workshop Ledger.
 
-- Static Shapes
-    - Circle
-    - Triangle / Christmas tree
-    - Candy cane stripes
-    - Star
-- Basic Animation
-    - Falling snow
-    - Radial sweep
-- Advanced
-    - Snow wisps -- simulate wind-blown snow
-    - Spiral -- start at the center and spiral outward
+### The Workshop Ledger
+
+1. **`c01_circle.py` -- Nose So Bright**
+2. **`c02_triangle.py` -- Fir-tual Tree**
+3. **`c03_candy_cane_stripes.py` -- Candy Cane Alignment**
+4. **`c04_star.py` -- Celestial Recalibration**
+5. **`c05_falling_snow.py` -- Silent Snowfall**
+6. **`c06_radial_sweep.py` -- Polar Radar**
+7. **`c07_snow_wisps.py` -- The Wandering Wind (Advanced)**
+8. **`c08_spiral.py` -- Spiral of the Evergreens (Advanced)**
+
+---
+
+Greater mysteries lie beyond the eighth chapter, but they remain sealed for now. May your patterns be bright, your loops terminate, and your LEDs never segfault.
+
+### LLM Use Policy
+The North Pole Electrical and Computational Illumination Society respectfully requests that visiting wizards refrain from outsourcing their patterns to Languid Lingual Magic.
+True Chrimbus spirit comes from mittened hands and warm `print()`s.
 
 ### Setting pixel colors using indexing and slicing
 
@@ -53,7 +60,7 @@ Using the `@with_pixels` decorator allows you to set the color of each light (or
 @with_neopixel
 def white(pixels, time_limit=TIME_LIMIT):
     start = time.time()
-    value = int(MAX_COLOR_VAL)
+    value = MAX_COLOR_VAL
     while True:
         pixels[:] = [(value, value, value)] * len(pixels)
         pixels.show()
@@ -89,7 +96,7 @@ def strobe(pixels, time_limit=TIME_LIMIT):
 
 ### Using the LEDMatrix class
 
-The LEDMatrix class is a convenience class for mapping the physical location of the lights to their index in the `pixels` list. The primary usage of this class involves its `.mapping` dictionary. This dictionary uses the key as the light index and the value as a tuple of the $(x, y)$ coordinates on the window.
+The LEDMatrix class is a convenience class for mapping the physical location of the lights to their index in the `pixels` list. The primary usage of this class involves its `.mapping` dictionary. This dictionary uses the key as the light index and the value as a tuple of the approximate $(x, y)$ coordinates on the window.
 
 ```python
 import colorsys

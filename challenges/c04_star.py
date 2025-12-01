@@ -1,5 +1,5 @@
 """
--- Challenge 04: Celestial Recalibration  --
+-- Challenge 04: Star  --
 
 The reindeer night-vision goggles have recently been upgraded to version 7.18 after the unfortunate accident involving an F-117A Nighthawk and a weather balloon during this year's Flight Agility Readiness Trial.
 The goggles must be recalibrated against a high-contrast celestial reference point.

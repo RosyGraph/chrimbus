@@ -1,7 +1,3 @@
-from challenges.falling_snow import falling_snow
-from challenges.radial_sweep import radial_sweep
-from challenges.snow_wisps import snow_wisps
-from challenges.spiral import spiral
 from challenges.star import star
 from patterns.blue_to_white import blue_to_white
 from patterns.candy_cane import candy_cane
@@ -36,9 +32,14 @@ from patterns.video_patterns import (
     nightmare_video_pattern,
     up_video_pattern,
 )
-from challenges.circle import circle
-from challenges.triangle import triangle
-from challenges.candy_cane_stripes import candy_cane_stripes
+from challenges.c01_circle import circle
+from challenges.c02_triangle import triangle
+from challenges.c03_candy_cane_stripes import candy_cane_stripes
+from challenges.c04_star import star
+from challenges.c05_falling_snow import falling_snow
+from challenges.c06_radial_sweep import radial_sweep
+from challenges.c07_snow_wisps import snow_wisps
+from challenges.c08_spiral import spiral
 
 PATTERNS = {
     #     "nye": nye,
@@ -75,8 +76,8 @@ PATTERNS = {
     "04_star": star,
     "05_falling_snow": falling_snow,
     "06_radial_sweep": radial_sweep,
-    "07_spiral": spiral,
-    "08_snow_wisps": snow_wisps,
+    "07_snow_wisps": snow_wisps,
+    "08_spiral": spiral,
     # "static_drumstick": static_drumstick,
     # "mono_rainbow": mono_rainbow,
     # "b_video": b_video_pattern,
