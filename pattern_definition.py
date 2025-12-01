@@ -31,6 +31,9 @@ from patterns.video_patterns import (
     nightmare_video_pattern,
     up_video_pattern,
 )
+from challenges.circle import circle
+from challenges.triangle import triangle
+from challenges.checkerboard import checkerboard
 
 PATTERNS = {
     #     "nye": nye,
@@ -61,6 +64,9 @@ PATTERNS = {
     "improved_random_p": improved_random_p,
     #     "constipated": constipated,
     "matrix_rain": matrix_rain,
+    "01_circle": circle,
+    "02_triangle": triangle,
+    "03_circle": checkerboard,
     # "static_drumstick": static_drumstick,
     # "mono_rainbow": mono_rainbow,
     # "b_video": b_video_pattern,
