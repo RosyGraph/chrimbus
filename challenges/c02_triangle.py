@@ -31,8 +31,13 @@ def triangle(pixels, time_limit=TIME_LIMIT):
     # Instantiate the matrix helper
     # Without it, we would have to deal with pixel indices directly
     matrix = LEDMatrix(pixels=pixels)
-    for led_idx, (x, y) in matrix.mapping.items():
-        if is_in_triangle(x, y):
-            pixels[led_idx] = red
-    pixels.show()
-    time.sleep(time_limit * 60)
+    start = time.time()
+    while True:  # Patterns must run on an event loop to work with the visualizer
+        for led_idx, (x, y) in matrix.mapping.items():
+            if is_in_triangle(x, y):
+                pixels[led_idx] = red
+        pixels.show()
+        time.sleep(1)  # 1 fps
+        elapsed = (time.time() - start) * 60
+        if elapsed >= time_limit:
+            break
