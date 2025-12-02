@@ -40,12 +40,14 @@ def is_in_triangle(x: int, y: int, f: float):
 def triangle(pixels, time_limit=TIME_LIMIT):
     matrix = LEDMatrix(pixels=pixels)
     start = time.time()
-    steps = list(np.linspace(0, 2 * np.pi, num=100))
+    steps = list(np.multiply(np.arctan(np.linspace(-1, 1, num=500)), 8))
     while True:
         for step in steps:
             for led_idx, (x, y) in matrix.mapping.items():
                 if is_in_triangle(x, y, step):
-                    pixels[led_idx] = (MAX_COLOR_VAL, 0, 0)
+                    g = int(max(min(MAX_COLOR_VAL, MAX_COLOR_VAL - 20 * step), 0) / 1.5)
+                    print(g)
+                    pixels[led_idx] = (MAX_COLOR_VAL, g, g)
                 else:
                     pixels[led_idx] = (0, 0, 0)
             pixels.show()
