@@ -11,7 +11,6 @@ Use the pixel coordinates provided by LEDMatrix.
 Once the circle is correctly displayed, the elves will be able to recalibrate Rudolf's nose, and the sleigh can take flight once more.
 """
 
-import math
 import time
 
 from constants import MAX_COLOR_VAL, TIME_LIMIT
@@ -19,23 +18,37 @@ from led_matrix import LEDMatrix
 from with_neopixel import with_neopixel
 
 
-def is_in_circle(x: int, y: int):
+def get_pixel_intensity(x: int, y: int):
     """
-    Returns True if x, y is in the desired
-    TODO: implement
+    Equation of a circle is (x - h)^2 + (y - k)^2 = r^2
+    where (h, k) is the center and r is the radius.
+
+    (x - h)^2 + (y - k)^2 <= 0.4^2
+    (x - 0.5)^2 + (y - 0.5)^2 <= 0.4^2
     """
-    return False
+    h = 0.5
+    k = 0.5
+    r = 0.35
+    lhs = (x - h) ** 2 + (y - k) ** 2
+    eps = 0.03
+    if r**2 - lhs < eps and lhs - r**2 < eps:
+        return (MAX_COLOR_VAL, 0, 0)
+    if lhs <= r**2:
+        return (0, MAX_COLOR_VAL, 0)
+    return (0, 0, 0)
 
 
 @with_neopixel
 def circle(pixels, time_limit=TIME_LIMIT):
     """Shows a red circle for `time_limit` seconds"""
-    red = (0, MAX_COLOR_VAL, 0)  # Colors are G, R, B in [0, 255]
     # Instantiate the matrix helper
     # Without it, we would have to deal with pixel indices directly
     matrix = LEDMatrix(pixels=pixels)
-    for led_idx, (x, y) in matrix.mapping.items():
-        if is_in_circle(x, y):
-            pixels[led_idx] = red
-    pixels.show()
-    time.sleep(time_limit)
+    start = time.time()
+    while True:
+        for led_idx, (x, y) in matrix.mapping.items():
+            pixels[led_idx] = get_pixel_intensity(x, y)
+        pixels.show()
+        time.sleep(1)
+        if start - time.time() >= time_limit:
+            break
