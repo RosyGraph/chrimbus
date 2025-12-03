@@ -33,7 +33,6 @@ def get_pixel_intensity(x: int, y: int):
     if lhs > r**2:
         return (0, 0, 0)
     b = int((r**2 - lhs) * 2000)
-    print(x, y, b)
     return (0, MAX_COLOR_VAL, b)
 
 
