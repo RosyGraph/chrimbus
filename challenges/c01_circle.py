@@ -30,12 +30,11 @@ def get_pixel_intensity(x: int, y: int):
     k = 0.5
     r = 0.35
     lhs = (x - h) ** 2 + (y - k) ** 2
-    eps = 0.03
-    if r**2 - lhs < eps and lhs - r**2 < eps:
-        return (MAX_COLOR_VAL, 0, 0)
-    if lhs <= r**2:
-        return (0, MAX_COLOR_VAL, 0)
-    return (0, 0, 0)
+    if lhs > r**2:
+        return (0, 0, 0)
+    b = int((r**2 - lhs) * 2000)
+    print(x, y, b)
+    return (0, MAX_COLOR_VAL, b)
 
 
 @with_neopixel
