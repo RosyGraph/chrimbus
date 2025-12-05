@@ -49,5 +49,5 @@ def circle(pixels, time_limit=TIME_LIMIT):
             pixels[led_idx] = get_pixel_intensity(x, y)
         pixels.show()
         time.sleep(1)
-        if start - time.time() >= time_limit:
+        if time.time() - start >= time_limit * 60:
             break
