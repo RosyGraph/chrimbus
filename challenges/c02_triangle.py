@@ -53,5 +53,5 @@ def triangle(pixels, time_limit=TIME_LIMIT):
             pixels.show()
             time.sleep(0.02)
         steps = list(reversed(steps))
-        if (start - time.time()) * 60 >= time_limit:
+        if time.time() - start >= time_limit * 60:
             break
