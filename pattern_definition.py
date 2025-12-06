@@ -73,7 +73,7 @@ PATTERNS = {
     "01_circle": circle,
     "02_triangle": triangle,
     "03_candy_cane_stripes": candy_cane_stripes,
-    #     "04_star": star,
+    "04_star": star,
     #     "05_falling_snow": falling_snow,
     #     "06_radial_sweep": radial_sweep,
     #     "07_snow_wisps": snow_wisps,
