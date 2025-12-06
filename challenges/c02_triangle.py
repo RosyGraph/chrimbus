@@ -46,7 +46,6 @@ def triangle(pixels, time_limit=TIME_LIMIT):
             for led_idx, (x, y) in matrix.mapping.items():
                 if is_in_triangle(x, y, step):
                     g = int(max(min(MAX_COLOR_VAL, MAX_COLOR_VAL - 20 * step), 0) / 1.5)
-                    print(g)
                     pixels[led_idx] = (MAX_COLOR_VAL, g, g)
                 else:
                     pixels[led_idx] = (0, 0, 0)
