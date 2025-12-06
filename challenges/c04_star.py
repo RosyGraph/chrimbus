@@ -51,7 +51,7 @@ def star(pixels, time_limit=TIME_LIMIT):
     frame = 0
     while True:
         pixels[:] = [
-            (MAX_COLOR_VAL // 4, MAX_COLOR_VAL // 2, MAX_COLOR_VAL // 4) for _ in pixels
+            (0, 0, 0) for _ in pixels
         ]
         for i, (x, y) in matrix.mapping.items():
             x_s, y_s = x - 0.5, y - 0.5
