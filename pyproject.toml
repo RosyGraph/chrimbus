@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "bitstring==4.3.1",
+    "numpy>=2.4.0",
     "pyqt6==6.10.0",
 ]
