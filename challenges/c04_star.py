@@ -50,9 +50,7 @@ def star(pixels, time_limit=TIME_LIMIT):
     offset_angles = list(np.linspace(0, np.pi * 2, num=num_frames))
     frame = 0
     while True:
-        pixels[:] = [
-            (0, 0, 0) for _ in pixels
-        ]
+        pixels[:] = [(0, 0, 0) for _ in pixels]
         for i, (x, y) in matrix.mapping.items():
             x_s, y_s = x - 0.5, y - 0.5
             r_ = (x_s**2 + y_s**2) ** 0.5

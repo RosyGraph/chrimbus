@@ -1,10 +1,12 @@
+import importlib
 import json
 import os
+import signal
 import sys
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from PyQt6.QtCore import pyqtSignal, Qt, QThread, QTimer
+from PyQt6.QtCore import pyqtSignal, Qt, QThread, QTimer, QFileSystemWatcher
 from PyQt6.QtGui import QColor, QPainter, QPen
 from PyQt6.QtWidgets import (
     QApplication,
@@ -20,7 +22,7 @@ from PyQt6.QtWidgets import (
 
 from constants import NUM_LIGHTS, TIME_LIMIT
 from mocks import MockNeoPixel, MockPin
-from pattern_definition import PATTERNS
+import pattern_definition
 
 # Constants
 DATA_PIN = MockPin.D18
@@ -176,17 +178,35 @@ class LEDSimulator(QMainWindow):
 
         self.pattern_thread = None
 
+        # Set up file system watcher for hot reloading
+        self.file_watcher = QFileSystemWatcher()
+
+        # Watch individual Python files in patterns and challenges directories
+        import glob
+
+        pattern_files = glob.glob("patterns/*.py") + glob.glob("challenges/*.py")
+        for file_path in pattern_files:
+            self.file_watcher.addPath(file_path)
+            print(f"Watching file: {file_path}")
+
+        self.file_watcher.fileChanged.connect(self.on_pattern_file_changed)
+
         self.show()
+
+        # Start the first pattern automatically after the window is shown
+        if self.available_patterns:
+            first_pattern = list(self.available_patterns.keys())[0]
+            self.change_pattern(first_pattern)
 
     def load_patterns(self):
         """Load all pattern functions from the PATTERNS dictionary"""
         self.available_patterns = {}
 
-        if not PATTERNS:
+        if not pattern_definition.PATTERNS:
             print("No patterns defined in the PATTERNS dictionary.")
             raise ValueError("PATTERNS dictionary is empty.")
 
-        for func_name, func in PATTERNS.items():
+        for func_name, func in pattern_definition.PATTERNS.items():
             self.available_patterns[func_name] = func
             self.pattern_selector.addItem(func_name)
 
@@ -200,16 +220,11 @@ class LEDSimulator(QMainWindow):
 
         # Stop current pattern if running
         if self.pattern_thread and self.pattern_thread.isRunning():
-            print("Stopping current pattern...")
             self.pattern_thread.stop()
-
-            # Wait with timeout
-            if not self.pattern_thread.wait(1000):  # 1 second timeout
-                print("Pattern thread didn't stop gracefully, forcing termination...")
+            # Use shorter timeout and terminate immediately if needed
+            if not self.pattern_thread.wait(50):  # Reduced from 1000ms to 50ms
                 self.pattern_thread.terminate()
-                self.pattern_thread.wait()
-
-            print("Previous pattern stopped")
+                self.pattern_thread.wait(10)  # Very short wait after terminate
 
         # Clear any remaining updates
         self.pending_updates.clear()
@@ -218,12 +233,7 @@ class LEDSimulator(QMainWindow):
         self.pixels.fill((0, 0, 0))
         self.pixels.show()
 
-        # Add small delay to allow GUI to update
-        QTimer.singleShot(100, lambda: self._start_new_pattern(pattern_name))
-
-    def _start_new_pattern(self, pattern_name):
-        """Helper to start new pattern after delay"""
-        print(f"Starting new pattern: {pattern_name}")
+        # Start new pattern immediately
         if pattern_name in self.available_patterns:
             pattern_func = self.available_patterns[pattern_name]
             self.run_pattern(pattern_func)
@@ -294,10 +304,83 @@ class LEDSimulator(QMainWindow):
         self.canvas.led_size = size
         self.canvas.update()
 
+    def on_pattern_file_changed(self, file_path):
+        """Handle pattern file changes for hot reloading"""
+        print(f"File changed: {file_path}")  # Debug output
+        try:
+            if not os.path.basename(file_path).endswith(".py"):
+                print(f"Ignoring non-Python file: {file_path}")
+                return
+
+            # Determine the module path for the changed file
+            if file_path.startswith("patterns/"):
+                module_name = (
+                    f"patterns.{os.path.splitext(os.path.basename(file_path))[0]}"
+                )
+            elif file_path.startswith("challenges/"):
+                module_name = (
+                    f"challenges.{os.path.splitext(os.path.basename(file_path))[0]}"
+                )
+            else:
+                return
+
+            # Reload the specific module that changed
+            print(f"Reloading module: {module_name}")
+            if module_name in sys.modules:
+                importlib.reload(sys.modules[module_name])
+            else:
+                importlib.import_module(module_name)
+
+            # Also reload pattern_definition to pick up any changes
+            print("Reloading pattern_definition module...")
+            importlib.reload(pattern_definition)
+
+            # Update our local copy
+            self.available_patterns = pattern_definition.PATTERNS.copy()
+
+            print(f"Reloaded patterns due to change in: {file_path}")
+            print(f"Available patterns: {list(self.available_patterns.keys())}")
+
+            # If the current pattern still exists, restart it with the new version
+            current_pattern = self.pattern_selector.currentText()
+            print(f"Current pattern: {current_pattern}")
+            if current_pattern in self.available_patterns:
+                print(f"Restarting current pattern: {current_pattern}")
+                self.change_pattern(current_pattern)
+            else:
+                # If current pattern was removed, switch to first available
+                if self.available_patterns:
+                    first_pattern = list(self.available_patterns.keys())[0]
+                    print(f"Switching to first available pattern: {first_pattern}")
+                    self.pattern_selector.setCurrentText(first_pattern)
+                    self.change_pattern(first_pattern)
+
+        except Exception as e:
+            print(f"Error reloading patterns: {e}")
+            import traceback
+
+            traceback.print_exc()
+
+    def closeEvent(self, event):
+        """Clean up pattern thread when window is closed"""
+        if self.pattern_thread and self.pattern_thread.isRunning():
+            self.pattern_thread.stop()
+            if not self.pattern_thread.wait(50):  # Reduced timeout
+                self.pattern_thread.terminate()
+                self.pattern_thread.wait(10)  # Brief wait after terminate
+        event.accept()
+
 
 def main():
     app = QApplication(sys.argv)
     simulator = LEDSimulator()
+
+    # Handle SIGINT (Ctrl+C) gracefully
+    def signal_handler(signum, frame):
+        app.quit()
+
+    signal.signal(signal.SIGINT, signal_handler)
+
     sys.exit(app.exec())
 
 
