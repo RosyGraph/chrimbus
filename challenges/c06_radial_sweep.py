@@ -26,7 +26,6 @@ def radial_sweep(pixels, time_limit=TIME_LIMIT):
     sweep_positions = np.linspace(0, 2 * np.pi, num=200)
     while True:
         for pos in sweep_positions:
-            print(pos)
             for i, (x, y) in matrix.mapping.items():
                 x_s, y_s = x - 0.5, y - 0.5
                 theta = math.atan2(y_s, x_s) % (math.pi * 2)
