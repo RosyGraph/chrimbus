@@ -24,7 +24,7 @@ def is_in_circle(x: int, y: int):
     Returns True if x, y is in the desired
     TODO: implement
     """
-    False
+    return False
 
 
 @with_neopixel
