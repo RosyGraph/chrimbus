@@ -42,7 +42,7 @@ def snow_accumulate(pixels, time_limit=TIME_LIMIT):
 
         non_collided_flakes = [flake for flake in flakes if not flake.is_collided]
         # Randomly add new flakes if we have space
-        if random.random() < 0.05 and len(non_collided_flakes) < 1:
+        if random.random() < 0.05 and len(non_collided_flakes) < 4:
             flakes.append(Flake(random.random()))
 
         # Update flakes
