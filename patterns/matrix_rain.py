@@ -22,7 +22,7 @@ def matrix_rain(pixels, time_limit=TIME_LIMIT):
             self.brightness = random.uniform(0.5, 1.0)
 
     # Create initial drops
-    drops = [Drop(random.random()) for _ in range(1)]
+    drops = [Drop(random.random()) for _ in range(8)]
 
     start = time.time()
 
@@ -43,7 +43,7 @@ def matrix_rain(pixels, time_limit=TIME_LIMIT):
                 drop.brightness = random.uniform(0.5, 1.0)
 
         # Randomly add new drops
-        if random.random() < 0.1 and len(drops) < 1:
+        if random.random() < 0.1 and len(drops) < 12:
             drops.append(Drop(random.random()))
 
         # Update LED colors
