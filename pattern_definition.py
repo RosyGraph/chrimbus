@@ -1,4 +1,5 @@
 from challenges.star import star
+from patterns import brazil
 from patterns.blue_to_white import blue_to_white
 from patterns.candy_cane import candy_cane
 from patterns.carnival import carnival
@@ -34,6 +35,7 @@ from patterns.snow_accumulate import snow_accumulate
 
 PATTERNS = {
     #     "nye": nye,
+    "brazil": brazil,
     "chrimbus": chrimbus,
     "twinkly_snow": twinkly_snow,
     "rainbow": rainbow,
