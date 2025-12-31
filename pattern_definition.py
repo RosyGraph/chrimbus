@@ -23,7 +23,11 @@ from patterns.solid_red import solid_red
 from patterns.snake import snake
 from patterns.tree import tree
 from patterns.twinkly_snow import twinkly_snow
-from patterns.video_patterns import grinch_video_pattern
+from patterns.video_patterns import (
+    grinch_video_pattern,
+    trump_video_pattern,
+    pacman_video_pattern,
+)
 from challenges.c01_circle import circle
 from challenges.c02_triangle import triangle
 from challenges.c03_candy_cane_stripes import candy_cane_stripes
@@ -55,6 +59,8 @@ PATTERNS = {
     "snake": snake,
     "blue_to_white": blue_to_white,
     "grinch_video": grinch_video_pattern,
+    "trump_video": trump_video_pattern,
+    "pacman_video": pacman_video_pattern,
     #     "drumstick_outline": drumstick_outline,
     "radial_gradient": radial_gradient,
     "skewed_wave": skewed_wave,

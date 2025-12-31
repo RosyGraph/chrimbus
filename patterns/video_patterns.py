@@ -1,6 +1,7 @@
 import bitstring
 from with_neopixel import with_neopixel
 
+
 @with_neopixel
 def nightmare_video_pattern(pixels, time_limit=None):
     return video_pattern(pixels, time_limit, "./video_player/nightmare.led")
@@ -9,12 +10,12 @@ def nightmare_video_pattern(pixels, time_limit=None):
 @with_neopixel
 def grinch_video_pattern(pixels, time_limit=None):
     return video_pattern(pixels, time_limit, "./video_player/grinch.led")
-  
+
 
 @with_neopixel
 def grinch_video_pattern(pixels, time_limit=None):
     return video_pattern(pixels, time_limit, "./video_player/grinch.led")
-  
+
 
 @with_neopixel
 def up_video_pattern(pixels, time_limit=None):
@@ -26,6 +27,16 @@ def b_video_pattern(pixels, time_limit=None):
     return video_pattern(pixels, time_limit, "./video_player/b.led")
 
 
+@with_neopixel
+def trump_video_pattern(pixels, time_limit=None):
+    return video_pattern(pixels, time_limit, "./video_player/trump.led")
+
+
+@with_neopixel
+def pacman_video_pattern(pixels, time_limit=None):
+    return video_pattern(pixels, time_limit, "./video_player/pacman.led")
+
+
 def video_pattern(pixels, time_limit=None, binary_path=None):
     import time
 
@@ -34,11 +45,11 @@ def video_pattern(pixels, time_limit=None, binary_path=None):
         pos = 0
 
         # Read header
-        fps = bits[pos:pos + 32].floatle
+        fps = bits[pos : pos + 32].floatle
         pos += 32
-        num_frames = bits[pos:pos + 32].uintle
+        num_frames = bits[pos : pos + 32].uintle
         pos += 32
-        num_leds = bits[pos:pos + 16].uintle
+        num_leds = bits[pos : pos + 16].uintle
         pos += 16
 
         frame_delay = 1 / fps
@@ -52,9 +63,9 @@ def video_pattern(pixels, time_limit=None, binary_path=None):
 
             for i in range(num_leds):
                 led_pos = data_pos + (i * 24)
-                g = bits[led_pos:led_pos + 8].uint
-                r = bits[led_pos + 8:led_pos + 16].uint
-                b = bits[led_pos + 16:led_pos + 24].uint
+                g = bits[led_pos : led_pos + 8].uint
+                r = bits[led_pos + 8 : led_pos + 16].uint
+                b = bits[led_pos + 16 : led_pos + 24].uint
                 current_colors[i] = (g, r, b)
                 pixels[i] = (g, r, b)
 
@@ -62,15 +73,15 @@ def video_pattern(pixels, time_limit=None, binary_path=None):
             data_pos += num_leds * 24
 
             for frame in range(1, num_frames):
-                num_changes = bits[data_pos:data_pos + 8].uint
+                num_changes = bits[data_pos : data_pos + 8].uint
                 data_pos += 8
 
                 for _ in range(num_changes):
-                    led_index = bits[data_pos:data_pos + 8].uint
+                    led_index = bits[data_pos : data_pos + 8].uint
                     data_pos += 8
-                    g = bits[data_pos:data_pos + 8].uint
-                    r = bits[data_pos + 8:data_pos + 16].uint
-                    b = bits[data_pos + 16:data_pos + 24].uint
+                    g = bits[data_pos : data_pos + 8].uint
+                    r = bits[data_pos + 8 : data_pos + 16].uint
+                    b = bits[data_pos + 16 : data_pos + 24].uint
                     data_pos += 24
 
                     current_colors[led_index] = (g, r, b)
@@ -95,4 +106,5 @@ def video_pattern(pixels, time_limit=None, binary_path=None):
     except Exception as e:
         print(f"Error playing preprocessed video: {e}")
         import traceback
+
         traceback.print_exc()
