@@ -24,7 +24,12 @@ def is_in_circle(x: int, y: int):
     Returns True if x, y is in the desired
     TODO: implement
     """
-    return False
+
+    center_x = 0.5
+    center_y = 0.5
+    distance = math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
+    radius = 0.35
+    return distance <= radius
 
 
 @with_neopixel
