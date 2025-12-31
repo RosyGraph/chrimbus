@@ -2,17 +2,13 @@ from challenges.star import star
 from patterns.blue_to_white import blue_to_white
 from patterns.candy_cane import candy_cane
 from patterns.carnival import carnival
-from patterns.chicken_drumstick import chicken_drumstick
 from patterns.chrimbus import chrimbus
 from patterns.cluster import cluster
-from patterns.constipated import constipated
-from patterns.drumstick_outline import drumstick_outline
 from patterns.dvd_bounce import dvd_bounce
 from patterns.linear_gradient import linear_gradient
 from patterns.magi_searching_for_a_king import magi_searching_for_a_king
 from patterns.matrix_rain import matrix_rain
 from patterns.meteor import meteor
-from patterns.nye import nye
 from patterns.pinwheel import pinwheel
 from patterns.radial_gradient import radial_gradient
 from patterns.rainbow import rainbow
@@ -26,12 +22,6 @@ from patterns.solid_red import solid_red
 from patterns.snake import snake
 from patterns.tree import tree
 from patterns.twinkly_snow import twinkly_snow
-from patterns.video_patterns import (
-    b_video_pattern,
-    grinch_video_pattern,
-    nightmare_video_pattern,
-    up_video_pattern,
-)
 from challenges.c01_circle import circle
 from challenges.c02_triangle import triangle
 from challenges.c03_candy_cane_stripes import candy_cane_stripes
@@ -40,6 +30,7 @@ from challenges.c05_falling_snow import falling_snow
 from challenges.c06_radial_sweep import radial_sweep
 from challenges.c07_snow_wisps import snow_wisps
 from challenges.c08_spiral import spiral
+from patterns.snow_accumulate import snow_accumulate
 
 PATTERNS = {
     #     "nye": nye,
@@ -70,6 +61,7 @@ PATTERNS = {
     "improved_random_p": improved_random_p,
     #     "constipated": constipated,
     "matrix_rain": matrix_rain,
+    "snow_accumulate": snow_accumulate,
     "01_circle": circle,
     "02_triangle": triangle,
     "03_candy_cane_stripes": candy_cane_stripes,
