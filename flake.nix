@@ -11,6 +11,7 @@
       packages = with pkgs; [
         nodejs
         pnpm
+        python3
       ];
     };
   };
