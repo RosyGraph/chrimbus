@@ -1,4 +1,8 @@
 import "./style.css";
+import geometry from "./geometry.json";
+
+const MAX_X = 800;
+const MAX_Y = 586;
 
 const canvas = document.querySelector<HTMLCanvasElement>("#display");
 
@@ -18,11 +22,7 @@ function fillCirc(x, y, r, g, b) {
   ctx.arc(x, y, 5, 0, Math.PI * 2);
   ctx.fill();
 }
-[
-  { x: 100, y: 100, r: 255, g: 0, b: 0 },
-  { x: 120, y: 110, r: 255, g: 255, b: 0 },
-  { x: 140, y: 120, r: 0, g: 255, b: 0 },
-  { x: 160, y: 130, r: 0, g: 255, b: 255 },
-].forEach(({ x, y, r, g, b }) => {
-  fillCirc(x, y, r, g, b);
+
+Object.values(geometry).forEach(([x, y]) => {
+  fillCirc(x * MAX_X, y * MAX_Y, 255, 255, 255);
 });
