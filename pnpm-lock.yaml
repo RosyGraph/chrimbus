@@ -11,6 +11,9 @@ importers:
       ajv-cli:
         specifier: ^5.0.0
         version: 5.0.0
+      prettier:
+        specifier: ^3.9.6
+        version: 3.9.6
 
 packages:
 
@@ -97,6 +100,11 @@ packages:
   path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
+
+  prettier@3.9.6:
+    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
@@ -194,6 +202,8 @@ snapshots:
       wrappy: 1.0.2
 
   path-is-absolute@1.0.1: {}
+
+  prettier@3.9.6: {}
 
   require-from-string@2.0.2: {}
 

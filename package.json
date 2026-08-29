@@ -4,6 +4,7 @@
 		"validate:spec": "ajv validate -s spec/animation.schema.json -d 'spec/examples/*.json'"
 	},
 	"devDependencies": {
-		"ajv-cli": "^5.0.0"
+		"ajv-cli": "^5.0.0",
+		"prettier": "^3.9.6"
 	}
 }
