@@ -6,6 +6,8 @@ of the 250-light display.
 The structure and value constraints of an animation are defined by
 [`animation.schema.json`](./animation.schema.json).
 
+You can view a trivial, valid example in [`examples/basic.json`](./examples/basic.json).
+
 ## Pixels
 
 Each frame contains 250 pixels. A pixel is represented as `[r, g, b]`, where
