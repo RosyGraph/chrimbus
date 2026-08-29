@@ -15,11 +15,17 @@ if (!canvas) {
 }
 
 const ctx = canvas.getContext("2d");
+if (!ctx) {
+  throw new Error("2D canvas context unavailable");
+}
 
-function fillCirc(x: number, y: number, r: number, g: number, b: number) {
-  if (!ctx) {
-    throw new Error("2D canvas context unavailable");
-  }
+function fillCirc(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  pixel: AnimationSchema["frames"][number][number],
+) {
+  const [r, g, b] = pixel;
   ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
   ctx.beginPath();
   ctx.arc(x, y, 5, 0, Math.PI * 2);
@@ -32,7 +38,10 @@ const animation: unknown = basic;
 if (!validateAnimation(animation)) {
   throw new Error("Invalid animation");
 }
+let currFrame = 0;
 
-Object.values(geometry).forEach(([x, y]) => {
-  fillCirc(x * MAX_X, y * MAX_Y, 255, 255, 255);
+const frame = animation.frames[currFrame];
+Object.values(geometry).forEach(([x, y], i) => {
+  const pixel = frame[i];
+  fillCirc(ctx, x * MAX_X, y * MAX_Y, pixel);
 });
