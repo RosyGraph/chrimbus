@@ -1,0 +1,9 @@
+{
+	"private": true,
+	"scripts": {
+		"validate:spec": "ajv validate -s spec/animation.schema.json -d 'spec/examples/*.json'"
+	},
+	"devDependencies": {
+		"ajv-cli": "^5.0.0"
+	}
+}
