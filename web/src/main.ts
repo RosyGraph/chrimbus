@@ -38,10 +38,24 @@ const animation: unknown = basic;
 if (!validateAnimation(animation)) {
   throw new Error("Invalid animation");
 }
-let currFrame = 0;
+const frameDuration = 1_000 / animation.fps;
+let lastFrameTime = 0;
 
-const frame = animation.frames[currFrame];
-Object.values(geometry).forEach(([x, y], i) => {
-  const pixel = frame[i];
-  fillCirc(ctx, x * MAX_X, y * MAX_Y, pixel);
-});
+let currFrame = 0;
+function draw(ctx: CanvasRenderingContext2D, animation: AnimationSchema) {
+  const frame = animation.frames[currFrame];
+  Object.values(geometry).forEach(([x, y], i) => {
+    const pixel = frame[i];
+    fillCirc(ctx, x * MAX_X, y * MAX_Y, pixel);
+  });
+  currFrame = (currFrame + 1) % animation.frames.length;
+}
+function animate(time: number, draw: () => void) {
+  if (time - lastFrameTime >= frameDuration) {
+    draw();
+    lastFrameTime += frameDuration;
+  }
+
+  requestAnimationFrame((time) => animate(time, draw));
+}
+requestAnimationFrame((time) => animate(time, () => draw(ctx, animation)));
