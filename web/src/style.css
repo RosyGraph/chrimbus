@@ -36,7 +36,8 @@ body {
 canvas {
   display: block;
 }
-.upload-button {
+.upload-button,
+.file-button {
   display: inline-block;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -46,11 +47,18 @@ canvas {
     color 100ms ease;
 }
 
-.upload-button:hover {
+.upload-button:hover,
+.file-button:hover {
   background: var(--fg);
   color: var(--bg);
 }
 #error {
   background: #c33;
   color: var(--bg);
+}
+button.file-button {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: inherit;
 }
