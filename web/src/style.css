@@ -50,3 +50,7 @@ canvas {
   background: var(--fg);
   color: var(--bg);
 }
+#error {
+  background: #c33;
+  color: var(--bg);
+}
