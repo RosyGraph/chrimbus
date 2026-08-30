@@ -1,8 +1,8 @@
 import "./style.css";
-import geometry from "./geometry.json";
-
-const MAX_X = 800;
-const MAX_Y = 586;
+import { drawFrame } from "./renderer";
+import basic from "./basic.json";
+import { validateAnimation } from "./animation";
+import { play } from "./player";
 
 const canvas = document.querySelector<HTMLCanvasElement>("#display");
 
@@ -11,18 +11,13 @@ if (!canvas) {
 }
 
 const ctx = canvas.getContext("2d");
-
 if (!ctx) {
   throw new Error("2D canvas context unavailable");
 }
 
-function fillCirc(x, y, r, g, b) {
-  ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-  ctx.beginPath();
-  ctx.arc(x, y, 5, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-Object.values(geometry).forEach(([x, y]) => {
-  fillCirc(x * MAX_X, y * MAX_Y, 255, 255, 255);
+const animation = validateAnimation(basic);
+let currFrame = 0;
+play(animation.fps, () => {
+  drawFrame(ctx, animation.frames[currFrame]);
+  currFrame = (currFrame + 1) % animation.frames.length;
 });

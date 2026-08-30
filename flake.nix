@@ -12,6 +12,7 @@
         nodejs
         pnpm
         python3
+        typescript-language-server
       ];
     };
   };
