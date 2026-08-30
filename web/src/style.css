@@ -26,10 +26,27 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
 }
 
 canvas {
   display: block;
+}
+.upload-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    background 100ms ease,
+    color 100ms ease;
+}
+
+.upload-button:hover {
+  background: var(--fg);
+  color: var(--bg);
 }
