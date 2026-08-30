@@ -1,4 +1,12 @@
 <body>
   <canvas id="display" width="800" height="586"></canvas>
+  <input
+    id="animation-upload"
+    type="file"
+    accept=".json,application/json"
+    hidden
+  />
+  <label for="animation-upload" class="upload-button"> upload animation </label>
+  <p id="error" role="alert"></p>
   <script type="module" src="/src/main.ts"></script>
 </body>
