@@ -6,7 +6,10 @@ export function validateAnimation(animationJSON: unknown) {
   const ajv = new Ajv();
   const validateAnimation = ajv.compile<AnimationSchema>(schema);
   if (!validateAnimation(animationJSON)) {
-    throw new Error("Invalid animation");
+    const errMsg = validateAnimation.errors
+      ?.map((err) => err.message)
+      .join("\n");
+    throw new Error(errMsg ?? "Invalid animation");
   }
   return animationJSON;
 }
