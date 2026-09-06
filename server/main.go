@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"os"
 
 	_ "modernc.org/sqlite"
 )
@@ -26,17 +27,25 @@ func openDB() *sql.DB {
 	return db
 }
 
-func pattern(w http.ResponseWriter, req *http.Request) {
-	w.WriteHeader(http.StatusCreated)
+func pattern(apiKey string) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		reqKey := req.Header.Get("Authorization")
+		if reqKey != "Bearer "+apiKey {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		w.WriteHeader(http.StatusCreated)
+	}
 }
 
 func main() {
+	apiKey := os.Getenv("CHRIMBUS_API_KEY")
 	db := openDB()
 	defer db.Close()
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("POST /pattern/{$}", pattern)
+	mux.HandleFunc("POST /pattern/{$}", pattern(apiKey))
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		log.Fatal(err)
 	}
