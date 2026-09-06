@@ -16,6 +16,9 @@
         python3
         typescript-language-server
       ];
+      shellHook = ''
+        export CHRIMBUS_API_KEY=dev
+      '';
     };
   };
 }
