@@ -6,17 +6,42 @@ import (
 	"testing"
 )
 
-func TestPatternUnauthorized(t *testing.T) {
+func TestPattern(t *testing.T) {
+	tests := []struct {
+		name   string
+		auth   string
+		status int
+	}{
+		{
+			name:   "unauthorized",
+			status: http.StatusUnauthorized,
+		},
+		{
+			name:   "authorized",
+			auth:   "Bearer secret",
+			status: http.StatusCreated,
+		},
+		{
+			name:   "invalid key",
+			auth:   "Bearer wrong",
+			status: http.StatusUnauthorized,
+		},
+	}
+
 	handler := pattern("secret")
 
-	req := httptest.NewRequest(http.MethodPost, "/pattern/", nil)
-	rec := httptest.NewRecorder()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			req := httptest.NewRequest(http.MethodPost, "/pattern/", nil)
+			req.Header.Set("Authorization", tt.auth)
 
-	handler(rec, req)
-	want := http.StatusUnauthorized
-	got := rec.Code
+			rec := httptest.NewRecorder()
 
-	if got != want {
-		t.Fatalf("want %d, got %d", want, got)
+			handler(rec, req)
+
+			if rec.Code != tt.status {
+				t.Fatalf("want %d, got %d", tt.status, rec.Code)
+			}
+		})
 	}
 }
